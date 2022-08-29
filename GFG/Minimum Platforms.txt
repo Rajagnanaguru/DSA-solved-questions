@@ -1,0 +1,73 @@
+TC: O(2400*n)
+SC: O(1)
+
+class Solution{
+    public:
+    //Function to find the minimum number of platforms required at the
+    //railway station such that no train waits.
+    int findPlatform(int arr[], int dep[], int n)
+    {
+    	// Your code here
+    	vector<int>freq(2400, 0);
+    	
+    	for(int i=0; i<n; i++){
+    	    for(int t = arr[i]; t<=dep[i]; t++)
+    	        freq[t]++;
+    	}
+    	
+    	int res = -1;
+    	for(int i=0; i<=2359; i++)
+    	    if(res < freq[i])
+    	        res = freq[i];
+    	 
+    	return res;
+    }
+};
+
+
+
+
+
+TC: O(nlogn)
+SC: O(n)
+
+class Solution{
+    public:
+    //Function to find the minimum number of platforms required at the
+    //railway station such that no train waits.
+    int findPlatform(int arr[], int dep[], int n)
+    {
+    	// Your code here
+    	vector<pair<int, int>>all;
+    	
+    	for(int i=0;i<n; i++)
+    	    all.push_back(make_pair(arr[i], 0)); // Representing arrivals
+    	    
+    	for(int i=0; i<n; i++)
+    	    all.push_back(make_pair(dep[i], 1)); // Representing departures
+    	    
+    	sort(all.begin(), all.end(), [](pair<int, int>a, pair<int, int>b){
+    	    if(a.first == b.first)
+    	        return a.second < b.second;
+    	        
+    	   return a.first < b.first;
+    	});
+    	
+    	int res = -1;
+    	
+        n = 2*n;
+        
+        int tmp = 0;
+        for(int i=0; i<n; i++){
+            if(all[i].second == 0)
+                tmp++;
+            else
+                tmp--;
+                
+            if(tmp > res)
+                res = tmp;
+        }
+        
+    	return res;
+    }
+};
