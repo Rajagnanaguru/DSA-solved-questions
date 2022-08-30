@@ -1,0 +1,33 @@
+// TC: O(n)
+// OC: O(n)
+
+class Solution {
+public:
+    int conv(int ind, int n){
+        return ind % n;    
+    }
+    
+    int findTheWinner(int n, int k) {
+        vector<int>arr(n, 0);
+        for(int i=0; i<n; i++)
+            arr[i] = i+1;
+        
+        int curr = 0;
+        
+        int add, del;
+        
+        while(n != 1){            
+            add = (k-1) % n;
+            del = curr + add;
+            
+            del = conv(del, n);
+            
+            arr.erase(arr.begin() + del);
+            
+            n -= 1;
+            curr = conv(del, n);
+        }
+        
+        return arr[0];
+    }
+};
