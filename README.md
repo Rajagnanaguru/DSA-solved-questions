@@ -1,1 +1,1 @@
-## DSA-solved-questions in Leetcode and Codeforces
+## DSA-solved-questions
