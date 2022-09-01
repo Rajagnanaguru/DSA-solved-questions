@@ -1,0 +1,30 @@
+// TC - O(n) [n-> no of nodes in the tree)
+// SC - O(n)
+
+class Solution {
+public:
+    int countGood(TreeNode* root, int maxi){
+        int res = 0;
+        
+        if(root == NULL)
+            return 0;
+        
+        if(root->val >= maxi){
+            res += 1;
+            maxi = root->val;
+        }
+        
+        res += countGood(root->left, maxi);
+        res += countGood(root->right, maxi);
+        
+        return res;
+    }
+    
+    int goodNodes(TreeNode* root) {
+        int res = 0;
+        
+        res = countGood(root, root->val);
+        
+        return res;
+    }
+};
