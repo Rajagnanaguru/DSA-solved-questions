@@ -1,5 +1,6 @@
 // TC - O(n) [n-> no of nodes in the tree)
 // SC - O(n)
+// Recursive
 
 class Solution {
 public:
@@ -24,6 +25,41 @@ public:
         int res = 0;
         
         res = countGood(root, root->val);
+        
+        return res;
+    }
+};
+
+
+// Iterative approach
+class Solution {
+public:
+    int goodNodes(TreeNode* root) {
+        int res = 0;
+        
+        int maxi = INT_MIN;
+        
+        stack<pair<TreeNode*, int>>st;
+        
+        st.push(make_pair(root, maxi));
+        
+        while(!st.empty()){
+            auto topele = st.top();
+            st.pop();
+            
+            TreeNode *curr = topele.first;
+            int currmaxi = topele.second;
+            
+            if(curr->val >= currmaxi){
+                res++;
+                currmaxi = curr->val;
+            }
+            
+            if(curr->left)
+                st.push({curr->left, currmaxi});
+            if(curr->right)
+                st.push({curr->right, currmaxi});
+        }
         
         return res;
     }
