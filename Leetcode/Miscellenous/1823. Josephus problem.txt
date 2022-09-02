@@ -1,4 +1,4 @@
-// TC: O(n)
+// TC: O(n*n) => erase takes O(n) each time
 // OC: O(n)
 
 class Solution {
@@ -29,5 +29,22 @@ public:
         }
         
         return arr[0];
+    }
+};
+
+// Recursive soln
+// TC: O(n)
+// SC: O(n)
+class Solution {
+public:
+    int findTheWinner(int n, int k) {
+        vector<int>dp(n+1, 0);
+        
+        dp[0] = 0;
+        
+        for(int i=1; i<=n; i++)
+            dp[i] = ((k%i) + dp[i-1])%i;
+        
+        return dp[n] + 1;
     }
 };
