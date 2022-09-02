@@ -1,0 +1,86 @@
+// Hashmap && DLL
+
+class Node{
+public:
+    Node *prev, *next;
+    int key, value;
+    
+    Node(){
+        prev = NULL;
+        next = NULL;
+        key = -1;
+        value = -1;
+    }
+    
+    Node(int key, int value){
+        prev = NULL;
+        next = NULL;
+        this->key = key;
+        this->value = value;
+    }
+};
+
+class LRUCache {
+public:
+    unordered_map<int, Node*>hashmap;
+    int capacity;
+    
+    Node *head, *tail;
+    
+    LRUCache(int capacity) {
+        head = new Node();
+        tail = new Node();
+        
+        head->next = tail;
+        tail->prev = head;
+        this->capacity = capacity;
+    }
+    
+    void deleteNode(Node* node){
+        int key = node->key;
+        
+        Node *prev = node->prev;
+        Node *next = node->next;
+        
+        prev->next = next;
+        next->prev = prev;
+        
+        hashmap.erase(key);
+        delete(node);
+    }
+    
+    int get(int key) {
+        if(hashmap.find(key) == hashmap.end())
+            return -1;
+        
+        int res = hashmap[key]->value;
+        
+        deleteNode(hashmap[key]);
+        put(key, res);
+        
+        return res;
+    }
+    
+    void insert(int key, int value){
+        Node *tmp = new Node(key, value);
+        
+        Node *second = head->next;
+        head->next = tmp;
+        tmp->prev = head;
+        
+        tmp->next = second;
+        second->prev = tmp;
+        
+        hashmap[key] = tmp;
+    }
+        
+    void put(int key, int value) {
+        if(hashmap.find(key) != hashmap.end())
+            deleteNode(hashmap[key]);
+        
+        if(hashmap.size() == capacity)
+            deleteNode(hashmap[tail->prev->key]);
+        
+        insert(key, value);
+    }
+};
