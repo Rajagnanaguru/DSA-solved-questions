@@ -1,0 +1,79 @@
+// Iterative BFS
+class Solution {
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        vector<double>res;
+        
+        queue<TreeNode*>qe;
+        qe.push(root);
+        qe.push(NULL);
+        
+        while(!qe.empty()){
+            double sum = 0;
+            double n = qe.size()-1;
+            while(qe.front() != NULL){
+                auto topele = qe.front();
+                qe.pop();
+                
+                TreeNode* node = topele;
+                
+                sum += node->val;
+                
+                if(node->left)
+                    qe.push(node->left);
+                if(node->right)
+                    qe.push(node->right);
+            }
+            
+            res.push_back(sum/n);
+            qe.pop(); // Popping NULL node
+            
+            if(!qe.empty())
+                qe.push(NULL);
+        }
+        
+        return res;
+    }
+};
+
+// Iteartive DFS
+class Solution {
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        vector<double>res(10001, 0);
+        vector<int>exist(10001, 0);
+        
+        
+        stack<pair<TreeNode*, int>>st;
+        st.push({root, 0});
+        
+        while(!st.empty()){
+            auto topele = st.top();
+            st.pop();
+            
+            int depth = topele.second;
+            TreeNode* node = topele.first;
+            
+            exist[depth]++;
+            res[depth] += node->val;
+            
+            if(node->left)
+                st.push({node->left, depth+1});
+            if(node->right)
+                st.push({node->right, depth+1});
+        }
+        
+        vector<double>newres;
+        for(int i=0; i<10001; i++){
+            if(exist[i] != 0){
+                double sum = res[i];
+                double nodes = exist[i];
+                
+                newres.push_back(sum/nodes);
+            }else
+                break;
+        }
+        
+        return newres;
+    }
+};
