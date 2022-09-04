@@ -1,0 +1,38 @@
+//Function to return a list containing elements of left view of the binary tree.
+vector<int> leftView(Node *root)
+{
+   // Your code here
+   queue<Node*>qe;
+   
+   vector<int>res;
+   
+   qe.push(root);
+   qe.push(NULL);
+   
+   while(!qe.empty()){
+       
+       Node *curr;
+       int leftmost = 1e8;
+       
+       while((curr = qe.front()) != NULL){
+           if(leftmost == 1e8)
+                leftmost = curr->data;
+            
+            if(curr->left)
+                qe.push(curr->left);
+            if(curr->right)
+                qe.push(curr->right);
+            
+            qe.pop(); // For seeing the next element in queue
+       }
+       
+       qe.pop(); // Popping the null value
+       
+       if(leftmost != 1e8){
+           res.push_back(leftmost);
+           qe.push(NULL);
+       }
+   }
+   
+   return res; 
+}

@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int>res;
+        
+        queue<TreeNode*>qe;
+        
+        int lastele;
+        qe.push(root);
+        qe.push(NULL);
+        
+        while(!qe.empty()){
+            
+            lastele = 1e8;
+            TreeNode *curr;
+            while((curr = qe.front()) != NULL){
+                lastele = curr->val;
+                if(curr->left)
+                    qe.push(curr->left);
+                if(curr->right)
+                    qe.push(curr->right);
+                
+                qe.pop();
+            }
+            
+            
+            if(lastele != 1e8){
+                res.push_back(lastele);
+                qe.push(NULL); // Pushing the new level null
+            }
+            
+            qe.pop(); // Popping the NULL
+        }
+        
+        return res;
+    }
+};

@@ -1,0 +1,44 @@
+class Solution {
+  public:
+    vector <int> bottomView(Node *root) {
+        // Your Code Here
+        vector<int>res;
+        int l = 0, r = 0;
+        
+        map<int, pair<int, int>>tops; // Horiz value -> node value, level
+        
+        stack<pair<Node*, pair<int, int>>>st; // Node* with Level, horiz value
+        
+        st.push({root, {0, 0}}); 
+        
+        while(!st.empty()){
+            auto topele = st.top();
+            st.pop();
+            
+            Node* t = topele.first;
+            auto info = topele.second;
+            
+            l = min(l, info.second);
+            r = max(r, info.second);
+            
+            if(tops.find(info.second) == tops.end()){
+                tops[info.second] = {t->data, info.first};
+            }else{
+                auto curr = tops[info.second];
+                if(curr.second <= info.first)
+                    tops[info.second] = {t->data, info.first};
+            }
+            
+            if(t->right)
+                st.push({t->right, {info.first + 1, info.second+1}});
+            if(t->left)
+                st.push({t->left, {info.first + 1, info.second-1}});
+        }
+        
+        //cout << l << " to "<< r << endl;
+        for(int i=l; i<=r; i++)
+            res.push_back(tops[i].first);
+            
+        return res;  
+    }
+};
