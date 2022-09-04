@@ -1,0 +1,82 @@
+class Solution {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>>res;
+        
+        queue<pair<TreeNode*, int>> qe;
+        
+        map<int, vector<pair<int, int>>>verticals;
+        
+        qe.push({root, 0});
+        qe.push({NULL, -1});
+        
+        int level = 0;
+        
+        int l = 0, r = 0;
+        
+        while(!qe.empty()){
+            pair<TreeNode*, int> curr;
+            while( (curr = qe.front()).first != NULL){
+                TreeNode *t = curr.first;
+                int horiz = curr.second;
+                
+                l = min(l, horiz);
+                r = max(r, horiz);
+                
+                if(verticals.find(horiz) == verticals.end()){ // Create
+                    vector<pair<int, int>>tmp = {{t->val, level}};
+                    verticals[horiz] = tmp;   
+                }else{
+                    auto prev = verticals[horiz];
+                    int n = prev.size();
+                    
+                    int prevlev = prev[n-1].second;
+                    int prevval = prev[n-1].first;
+                    
+                    int currval = t->val;
+                    
+                    if(prevlev == level){
+                        vector<pair<int, int>> got = verticals[horiz];
+                        got.push_back({currval, level});
+                        verticals[horiz] = got;
+                    }else
+                        verticals[horiz].push_back({currval, level});
+                }
+                
+                if(t->left)
+                    qe.push({t->left, horiz-1});
+                if(t->right)
+                    qe.push({t->right, horiz+1});
+                
+                qe.pop();
+            }
+            
+            qe.pop(); // Pop out the null
+            
+            if(!qe.empty())
+                qe.push({NULL, -1}); // Push next null to mark next level
+            
+            level++;
+        }
+        
+        for(int i=l; i<=r; i++){
+            auto all = verticals[i];
+        
+            sort(all.begin(), all.end(), [](pair<int, int>a, pair<int, int>b){
+                if(a.second == b.second) // For same level (already same horiz)
+                    return a.first < b.first;
+                if(a.second < b.second)
+                    return true;
+                return false;
+            });
+            
+            vector<int> t;
+            for(auto &p: all)
+                t.push_back(p.first);
+            
+            res.push_back(t);
+        }
+        
+        return res;
+    }
+};
