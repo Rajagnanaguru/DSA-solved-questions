@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<int>> levelOrder(Node* root) {
+        vector<vector<int>>res;
+        
+        queue<Node*>qe;
+        
+        qe.push(root);
+        qe.push(NULL);
+        
+        while(!qe.empty()){
+            
+            vector<int>tmp;
+            
+            Node *curr;
+            while((curr = qe.front()) != NULL){
+                tmp.push_back(curr->val);
+                
+                for(auto &child: curr->children)
+                    qe.push(child);
+                
+                qe.pop();
+            }
+            
+            qe.pop(); // Pop out the null
+            
+            if(!tmp.empty()){
+                res.push_back(tmp);
+                qe.push(NULL);    
+            }
+        }
+        
+        return res;
+    }
+};
