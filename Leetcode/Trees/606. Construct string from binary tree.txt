@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string tree2str(TreeNode* root) {
+        string res = "";
+        
+        if(root == NULL)
+            return res;
+        
+        int val = root->val;
+        
+        string left = tree2str(root->left);
+        string right = tree2str(root->right);
+        
+        if(left == "" && right == ""){
+            res += to_string(val); 
+        }else{
+            if(left != "" && right == ""){
+                res += to_string(val);
+                res += "(";
+                res += left;
+                res += ")";
+            }else{
+                res += to_string(val);
+                res += "(";
+                res += left;
+                res += ")";
+                
+                res += "(";
+                res += right;
+                res += ")";
+            }
+        }
+        
+        return res;        
+    }
+};
