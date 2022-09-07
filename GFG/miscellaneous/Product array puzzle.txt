@@ -1,0 +1,26 @@
+class Solution{
+  public:
+    // nums: given vector
+    // return the Product vector P that hold product except self at each index
+    vector<long long int> productExceptSelf(vector<long long int>& nums, int n) {
+       
+        //code here  
+        vector<long long int>res;
+        
+        vector<long long int>muls(n+2, 1);
+        
+        muls[0] = 1;
+        muls[n+1] = 1;
+        
+        for(int i=n; i>=0; i--)
+            muls[i] = muls[i+1]*nums[i-1];
+    
+        long long int tmp = 1;
+        for(int i=1; i<=n; i++){
+            res.push_back(tmp*muls[i+1]);
+            tmp *= nums[i-1];
+        }
+        
+        return res;
+    }
+};
