@@ -1,0 +1,44 @@
+class Solution {
+public:
+//     Recursive solution
+//     void inorder(TreeNode *root, vector<int>&res){
+//         if(root == NULL)
+//             return;
+        
+//         inorder(root->left, res);
+//         res.push_back(root->val);
+//         inorder(root->right, res);
+//     }
+
+
+// Below iterative solutionl
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int>res;
+        
+        stack<TreeNode*>st;
+        set<TreeNode*>visited;
+        
+        if(root)
+            st.push(root);
+        
+        while(!st.empty()){
+            TreeNode* topele = st.top();
+            
+            if(topele->left != NULL && visited.count(topele->left) == 0){
+                st.push(topele->left);
+                continue;
+            }
+            
+            res.push_back(topele->val);
+            st.pop();
+            visited.insert(topele);
+            
+            if(topele->right != NULL && visited.count(topele->right) == 0){
+                st.push(topele->right);
+                continue;
+            }
+        }
+        
+        return res;
+    }
+};
