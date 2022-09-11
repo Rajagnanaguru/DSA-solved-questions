@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        sort(envelopes.begin(), envelopes.end(), [](vector<int>&a, vector<int>&b){
+           if(a[0] < b[0])
+               return true;
+            
+            if(a[0] == b[0])
+                return a[1] > b[1]; // for avoiding same width to count in lis
+            
+            return false;
+        });
+        
+        int n = envelopes.size();
+        
+        vector<int>heights;
+        for(auto &e: envelopes)
+            heights.push_back(e[1]);
+        
+        vector<int>dp;
+        dp.push_back(heights[0]);
+        
+        for(int i=1; i<n; i++){
+            int val = heights[i];
+ 
+            if(dp[dp.size()-1] < val)
+                dp.push_back(val);
+            else{
+                int ind = lower_bound(dp.begin(), dp.end(), val) - dp.begin();
+                dp[ind] = val;
+            }
+        }
+        
+        return dp.size();
+    }
+};
