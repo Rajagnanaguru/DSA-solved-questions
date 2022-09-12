@@ -1,0 +1,32 @@
+// TC -> O(nlogn)
+// Two pointer approach
+
+class Solution {
+public:
+    int bagOfTokensScore(vector<int>& tokens, int power) {
+        int n = tokens.size();
+        int score = 0;
+        int res = 0;
+        
+        sort(tokens.begin(), tokens.end());
+        
+        int l = 0, r = n-1;
+        
+        while(l <= r){
+            if(power >= tokens[l]){
+                power -= tokens[l];
+                l++;
+                score += 1;
+            }else if(score >= 1){
+                power += tokens[r];
+                r--;
+                score -=1;
+            }else
+                break;
+            
+            res = max(res, score);
+        }
+        
+        return res;
+    }
+};
