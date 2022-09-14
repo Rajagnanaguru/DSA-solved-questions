@@ -1,0 +1,67 @@
+// Normal recursion
+// SC -> O(N), N-> no of leaf nodes (actually 9*N)
+class Solution {
+public:
+    int func(TreeNode* root, vector<int>freq){
+        if(root == NULL)
+            return 0;
+        
+        if(root->left == NULL && root->right == NULL){
+            freq[root->val]++;
+            
+            int ones = 0;
+            for(int i=1; i<=9; i++){
+                if(freq[i]%2 == 1){
+                    ones++;
+                    
+                    if(ones > 1)
+                        return 0;
+                }
+            }
+            
+            return 1;
+        }    
+        
+        freq[root->val]++;
+        int l = func(root->left, freq);
+        int r = func(root->right, freq);
+        
+        return l+r;
+    }
+    
+    int pseudoPalindromicPaths (TreeNode* root) {
+        vector<int>freq(10, 0);
+        return func(root, freq);
+    }
+};
+
+
+// Bit manipulation (using bit mask)
+// SC -> O(1)
+class Solution {
+public:    
+    int func(TreeNode* root, int val){
+        if(root == NULL)
+            return 0;
+        
+        if(root->left == NULL && root->right == NULL){
+            val = val^(1 << (root->val - 1)); // Toggling the root->val position bit from rightside
+            
+            if(val == 0 || ((val & val-1) == 0)) // Checking whether power of 2
+                return 1;
+            return 0;
+        }
+            
+        val = val^(1 << (root->val - 1));
+        
+        int l = func(root->left, val);
+        int r = func(root->right, val);
+        
+        return l+r;
+    }
+    
+    int pseudoPalindromicPaths (TreeNode* root) {
+        int val = 0;
+        return func(root, val);
+    }
+};
