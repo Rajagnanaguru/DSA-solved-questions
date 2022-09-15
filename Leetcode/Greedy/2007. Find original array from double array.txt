@@ -1,0 +1,30 @@
+// TC -> O(nlogn)
+// SC -> O(n)
+
+class Solution {
+public:
+    vector<int> findOriginalArray(vector<int>& changed) {
+        int n = changed.size();
+        vector<int>res;
+        
+        sort(changed.begin(), changed.end());
+        
+        map<int, int>freq;
+        
+        for(int i=n-1; i>=0; i--){
+            if(freq.find(2*changed[i]) == freq.end()){ // not found
+                freq[changed[i]]++;
+            }else{ // found in the hashmap
+                freq[2*changed[i]]--;
+                res.push_back(changed[i]);
+
+                if(freq[2*changed[i]] <= 0)
+                    freq.erase(2*changed[i]);
+            }
+        }
+    
+        if(freq.size() > 0)
+            return {};
+        return res;
+    }
+};
