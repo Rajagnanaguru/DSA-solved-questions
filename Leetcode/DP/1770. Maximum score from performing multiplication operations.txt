@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<int>>memo;
+    
+    long long func(int l, int ind, vector<int>& nums, vector<int>& multipliers, int &n, int &m){
+        //r = n-1-ind+l;
+        if(l == n)
+            return 0;
+        
+        if(ind == m)
+            return 0;
+        
+        if(memo[l][ind] != -2)
+            return memo[l][ind];
+    
+        // left
+        long long left = nums[l]*multipliers[ind]+func(l+1, ind+1, nums, multipliers, n, m);
+        
+        // right
+        long long right = nums[n-1-ind+l]*multipliers[ind]+func(l, ind+1, nums, multipliers, n, m);
+        
+        return memo[l][ind] = max(left, right);
+    }
+    
+    int maximumScore(vector<int>& nums, vector<int>& multipliers) {
+        int n = nums.size();
+        int m = multipliers.size();
+        
+        memo = vector<vector<int>>(m+2, vector<int>(m+2, -2));
+    
+        return func(0, 0, nums, multipliers, n, m);
+    }
+};
