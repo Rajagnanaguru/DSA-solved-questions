@@ -1,0 +1,51 @@
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int n = s.length();
+        
+        int l = 0;
+        int r = n-1;
+        int flag = 0;
+        if(n == 1)
+            return true;
+        
+        while(l < r){
+            while(l<n &&!isalnum(s[l]))
+                l++;
+            while(r>=0 && !isalnum(s[r]))
+                r--;
+            
+            if(l >= n || r < 0)
+                break;
+            
+            char c = s[l];
+            if(isalnum(c)){
+                if(isdigit(c))
+                    ;
+                else if(isupper(c))
+                    c = c-'A'+'a';
+            }
+            
+            s[l] = c;
+            
+            c = s[r];
+            if(isalnum(c)){
+                if(isdigit(c))
+                    ;
+                else if(isupper(c))
+                    c = c-'A'+'a';
+            }
+            s[r] = c;
+            if(s[l] != s[r]){
+                flag = 1;
+                break;
+            }
+            l++;
+            r--;
+        }
+        
+        if(flag == 1)
+            return false;
+        return true;
+    }
+};

@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int maximumWealth(vector<vector<int>>& accounts) {
+        int res=-1;
+        for(vector<int> row: accounts){
+            int tot=0;
+            for(auto val: row)
+                tot+= val;
+            if(tot>res)
+                res = tot;
+        }
+        return res;
+    }
+};

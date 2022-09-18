@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<string> findWords(vector<string>& words) {
+        vector<string>res; // Using includes
+        set<char>r1{'q','w','e','r','t','y','u','i','o','p','Q','W','E','R','T','Y','U','I','O','P'};
+        set<char>r2{'a','s','d','f','g','h','j','k','l','A','S','D','F','G','H','J','K','L'};
+        set<char>r3{'z','x','c','v','b','n','m','Z','X','C','V','B','N','M'};
+        
+        for(string s:words){
+            set<char>tmp;
+            
+            for(char c:s)
+                tmp.insert(c);
+            
+            if(includes(r1.begin(), r1.end(), tmp.begin(), tmp.end())
+              ||includes(r2.begin(), r2.end(), tmp.begin(), tmp.end())
+              ||includes(r3.begin(), r3.end(), tmp.begin(), tmp.end()))
+                res.push_back(s);
+                
+        }
+        return res;
+    }
+};

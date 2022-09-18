@@ -1,0 +1,77 @@
+class Solution {
+public:
+    static bool valid(vector<vector<char>>board, char val, int i, int j){
+        int flag = 0;
+        if(board[i][j] <='0' || board[i][j] >'9')
+            return false;
+        
+        for(int x=0;x<9;x++)
+            if(x!=j && board[i][x] == val)
+                flag=1;
+        
+        for(int x=0;x<9;x++)
+            if(x != i && board[x][j] == val)
+                flag = 1;
+        
+        int r = i/3;
+        int c = j/3;
+        
+        int bx = 3*r + 3;
+        int by = 3*c + 3;
+        
+        for(int x=3*r;x<bx;x++){
+            
+            for(int y=3*c;y<by;y++){
+                if((i!=x || j!=y) && board[x][y] == val)
+                    flag = 1;
+            }
+        }
+        
+        if(flag == 1)
+            return false;
+        return true;
+    }
+    void solveSudoku(vector<vector<char>>& board) {
+        vector<vector<int>>stat(9, vector<int>(9,0));
+        int n = 0;
+        vector<pair<pair<int,int>,int>>list;
+        
+        for(int i=0;i<9;i++)
+            for(int j=0;j<9;j++)
+                if(board[i][j] == '.'){
+                    pair<int,int>t;
+                    t.first = i;
+                    t.second = j;
+                    
+                    pair<pair<int,int>,int>pa;
+                    pa.first = t;
+                    pa.second = 0;
+                    
+                    list.push_back(pa);
+                    
+                    board[i][j]='0';
+                }
+        
+        for(int ptr = 0;ptr<list.size();ptr++){
+            int i = list[ptr].first.first;
+            int j = list[ptr].first.second;
+            int val = list[ptr].second;
+            
+            while(!valid(board, board[i][j], i, j) && board[i][j]<='9'){
+                list[ptr].second++;       
+                board[i][j]++;
+            }
+            
+            if(board[i][j] > '9'){
+                list[ptr].second = 0;
+                board[i][j]='0';
+                list[ptr-1].second++;
+                board[list[ptr-1].first.first][list[ptr-1].first.second]++;
+                ptr-=2;
+            }
+            
+        }
+               
+    }
+                   
+};

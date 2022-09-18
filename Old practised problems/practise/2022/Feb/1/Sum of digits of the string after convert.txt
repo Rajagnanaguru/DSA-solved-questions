@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int getLucky(string s, int k) {
+        string news;
+        for(auto c: s){
+            int add = c-'a'+1;
+            news += to_string(add);
+        }
+        
+        int add = 0;
+        
+        s = news;
+        while(k--){
+            news = "";
+            add = 0;
+            
+            for(auto c: s)
+                add += c - '0';
+            
+            news += to_string(add);
+            s = news;
+        }
+        
+        return add;
+    }
+};

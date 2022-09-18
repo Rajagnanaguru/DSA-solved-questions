@@ -1,0 +1,33 @@
+class Solution {
+public:
+    string gcdOfStrings(string str1, string str2) {
+        if(str1.compare(str2) == 0)
+            return str1;
+        
+        int n1 = str1.length();
+        int n2 = str2.length();
+        
+        if(n1 == n2)
+            return "";
+        
+        if(n1 > n2){
+            string sub1 = str1.substr(0, n2);
+            string sub2 = str1.substr(n2, n1);
+
+            if(sub1.compare(str2) == 0)
+                return gcdOfStrings(sub2, sub1);
+            else
+                return ""; 
+        }else{
+            string sub1 = str2.substr(0, n1);
+            string sub2 = str2.substr(n1, n2);
+
+            if(sub1.compare(str1) == 0)
+                return gcdOfStrings(sub2, sub1);
+            else
+                return ""; 
+        }
+        
+        return "";
+    }
+};

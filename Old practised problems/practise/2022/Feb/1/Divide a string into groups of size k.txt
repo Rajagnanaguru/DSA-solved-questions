@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<string> divideString(string s, int k, char fill) {
+        int n = s.length();
+        int addedf = 0;
+        vector<string>res;
+        
+        if(n%k != 0){
+            int rem = n%k;
+            int times = k-rem;
+            n += times;
+            
+            while(times--){
+                s += fill;
+            }
+            addedf = 1;
+        }
+        
+        int start = 0;
+        
+        while(true){
+            if(start == n)
+                break;
+            
+            string sub = s.substr(start, k);
+            start += k;
+            
+            res.push_back(sub);
+        }
+        
+        return res;
+    }
+};

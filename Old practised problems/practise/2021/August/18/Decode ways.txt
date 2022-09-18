@@ -1,0 +1,79 @@
+class Solution {
+public:
+    set<string>founds;
+    map<string,int>memo;
+    int numDecodings(string s) {
+        if(founds.count(s) > 0)
+            return memo[s];
+        
+        if(s[0] == '0'){
+            founds.insert(s);
+            memo[s]=0;
+            return 0;
+        }
+        
+        if(s.size() == 1){
+            if(s[0] >= '1' && s[0] <= '9'){
+                founds.insert(s);
+                memo[s]=1;
+                return 1;
+            }
+            else{
+                founds.insert(s);
+                memo[s]=0;
+                return 0;
+            }
+        }
+        
+        if(s.size() == 2){
+            if(s >= "10" && s<= "26"){
+                //cout<<"HI";
+                if(s[0] != '0' && s[1] != '0'){
+                    founds.insert(s);
+                    memo[s]=2;
+                    return 2;
+                }else{
+                    founds.insert(s);
+                    memo[s]=1;
+                    return 1;
+                }
+            }else{
+                //cout<<"HELLO";
+                if(s[0] != '0' && s[1] != '0'){
+                    founds.insert(s);
+                    memo[s]=1;
+                    return 1;
+                }
+                else{
+                    founds.insert(s);
+                    memo[s]=0;
+                    return 0;
+                }
+            }
+        }
+        
+        
+        string bef = s.substr(0,1);
+        string aft = s.substr(1);
+        
+        int l=0;
+        int r = 0;
+        int add = 0;
+        
+        string tw = s.substr(0,2);
+        if(tw >= "10" && tw <= "26")
+            l = 1;
+        string twa = s.substr(2);
+        
+        if(l == 1)
+            add = numDecodings(twa);
+        
+        
+        int first = numDecodings(bef);
+        int second = numDecodings(aft);
+        
+        founds.insert(s);
+        memo[s]=first*second + add;
+        return memo[s];
+    }
+};

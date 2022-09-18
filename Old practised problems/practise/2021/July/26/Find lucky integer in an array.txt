@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int findLucky(vector<int>& arr) {
+        map<int,int>freq;
+        int res = -1;
+        for(auto val:arr)
+            freq[val]++;
+        for(auto m:freq)
+            if(m.first == m.second)
+                if(res < m.first)
+                    res = m.first;
+         
+        return res;
+    }
+};

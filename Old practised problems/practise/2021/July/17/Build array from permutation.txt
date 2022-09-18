@@ -1,0 +1,15 @@
+class Solution {
+public:
+    vector<int> buildArray(vector<int>& nums) {
+        // Time complexity - O(n)
+        // Space complexity - O(1)
+        int big = 1001;
+        for(int i=0;i<nums.size();i++)
+            nums[i]+= big*(nums[nums[i]%big]%big);
+        
+        for(int i=0;i<nums.size();i++)
+            nums[i]/= big;
+        
+        return nums;
+    }
+};

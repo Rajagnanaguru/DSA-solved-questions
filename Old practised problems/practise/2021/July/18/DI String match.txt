@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> diStringMatch(string s) {
+        // Time complexity - O(n)
+        vector<int>res;
+        int curr = s.length();
+        int curr2 = 0;
+        int i;
+        for(i=0;i<s.length();i++){
+            if(s[i] == 'D'){
+                res.push_back(curr);
+                curr--;
+            }else{
+                res.push_back(curr2);
+                curr2++;
+            }
+        }
+        if(s[i-1] == 'D')
+            res.push_back(curr);
+        else
+            res.push_back(curr2);
+        
+        return res;
+    }
+};

@@ -1,0 +1,109 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        vector<int>num1;
+        vector<int>num2;
+        
+        ListNode* tmp = l1;
+        while(tmp != NULL){
+            num1.push_back(tmp->val);
+            tmp = tmp->next;
+        }
+        reverse(num1.begin(), num1.end());
+        
+        int i = 0;
+        tmp = l1;
+        while(tmp != NULL){
+            tmp->val = num1[i++];
+            tmp = tmp->next;
+        }
+        
+        tmp = l2;
+        
+        while(tmp != NULL){
+            num2.push_back(tmp->val);
+            tmp = tmp->next;
+        }
+        reverse(num2.begin(), num2.end());
+        
+        i=0;
+        tmp = l2;
+        while(tmp != NULL){
+            tmp->val = num2[i++];
+            tmp = tmp->next;
+        }
+        
+        
+        int sum = 0;
+        int carry = 0;
+        
+        ListNode* t;
+        if(num1.size() > num2.size()){
+            
+        }else{
+            ListNode* ltmp;
+            ltmp = l1;
+            l1 = l2;
+            l2 = ltmp;
+        }
+        
+        tmp = l1;
+        t = l2;
+
+        ListNode* bef = tmp;
+        while(t != NULL){
+            bef = tmp;
+            int val = tmp->val + t->val + carry;
+            sum = val%10;
+            carry = val/10;
+
+            tmp->val = sum;
+            tmp = tmp->next;
+            t = t->next;
+        }
+
+        while(tmp != NULL){
+            bef = tmp;
+            int val = tmp->val + carry;
+            carry = val/10;
+            sum = val%10;
+
+            tmp->val = sum;
+            tmp = tmp->next;
+        }
+
+        if(carry > 0){
+            ListNode* extra = new ListNode(carry);
+            bef->next = extra;
+        }
+        
+        tmp = l1;
+    
+        vector<int>res;
+        tmp = l1;
+        while(tmp != NULL){
+            res.push_back(tmp->val);
+            tmp = tmp->next;
+        }
+        reverse(res.begin(), res.end());
+        
+        tmp = l1;
+        int j = 0;
+        while(tmp != NULL){
+            tmp->val = res[j++];
+            tmp = tmp->next;
+        }
+    
+        return l1;
+    }
+};

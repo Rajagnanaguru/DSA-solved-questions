@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int finalValueAfterOperations(vector<string>& operations) {
+        int res = 0;
+        
+        for(string s: operations){
+            if(s.compare("++X") == 0 || s.compare("X++") == 0)
+                res++;
+            else if(s.compare("--X") == 0 || s.compare("X--") == 0)
+                res--;
+        }
+        
+        return res;
+    }
+};

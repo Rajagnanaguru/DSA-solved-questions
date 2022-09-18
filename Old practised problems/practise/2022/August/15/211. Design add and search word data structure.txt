@@ -1,0 +1,65 @@
+struct Node {
+    Node *links[26];
+    bool flag = false;
+    bool containsKey(char c){
+        if(links[c-'a'] != NULL)
+            return true;
+        return false;
+    }
+};
+
+class WordDictionary {
+private:
+    Node *root;
+    
+public:
+    WordDictionary() {
+        root = new Node();
+    }
+    
+    void addWord(string word) {
+        int len = word.length();
+        
+        Node *node = root;
+        for(int i=0; i<len; i++){
+            char c = word[i];
+            
+            if(!node->containsKey(c))
+                node->links[c - 'a'] = new Node();
+            node = node->links[c - 'a'];
+        }
+        
+        node->flag = true;
+    }
+    
+    bool search(string &word, int ind, Node* newroot){
+        int len = word.length();
+        
+        Node* node = newroot;
+        for(int i = ind; i<len; i++){
+            char c = word[i];
+            
+            if(c == '.'){
+                bool res = false;
+                
+                for(int k = 0; k<26; k++){
+                    if(node->links[k] != NULL){
+                        if(search(word, i+1, node->links[k]))
+                           return true;
+                    }
+                }
+                return false;
+            }else{
+                if(!node->containsKey(c))
+                    return false;
+                node = node->links[c - 'a'];
+            }
+        }
+        
+        return (node->flag == true);
+    }
+    
+    bool search(string word) {
+        return search(word, 0, root);
+    }
+};

@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<int> decrypt(vector<int>& code, int k) {
+        int maxe = 101;
+        int n = code.size();
+        for(int i=0;i<n;i++){
+            int count  = k;
+            int val=0;
+            if(k > 0){
+                int pos = i;
+                while(count--){
+                    if(pos <= n-2)
+                        pos++;
+                    else
+                        pos=0;
+                    
+                    val+=code[pos]%maxe;
+                    
+                    
+                }
+            }else{
+                int pos = i;
+                count = -count;
+                while(count--){
+                    if(pos >= 1)
+                        pos--;
+                    else
+                        pos=n-1;
+                    
+                    val+=code[pos]%maxe;
+                }
+            }
+            
+            code[i] = val*maxe + (code[i]%maxe);
+        }
+        
+        for(int i=0;i<code.size();i++)
+            code[i] = code[i]/maxe;
+            
+        return code;
+    }
+};

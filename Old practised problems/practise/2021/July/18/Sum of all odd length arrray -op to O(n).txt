@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int sumOddLengthSubarrays(vector<int>& arr) {
+        vector<int>prearr; // Using prefix array concept
+        int tot=0;
+        int res=0;
+        int n = arr.size();
+        for(auto val: arr){
+            tot+=val;
+            prearr.push_back(tot);
+        }
+        
+        for(int i=0;i<n;i++){
+            for(int j=i;j<n;j=j+2){
+                if(i!=0)
+                    res+=prearr[j]-prearr[i-1];
+                else
+                    res+=prearr[j];
+                }
+        }
+        
+        return res;
+    }
+};

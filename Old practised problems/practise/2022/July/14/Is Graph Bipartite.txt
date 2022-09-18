@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool res = true;
+    vector<int>state;
+    
+    void dfs(vector<vector<int>>& graph, int node, int prevstate){
+        if(state[node] == -1){
+            state[node] = !prevstate;
+        }else{ // Visited
+            // Checking whether any conflict occuring and returning
+            if(state[node] == prevstate)
+                res = false;
+            return;
+        }
+        
+        prevstate = state[node];
+        vector<int>toTraverse = graph[node];
+        
+        for(auto &val: toTraverse){
+            dfs(graph, val, prevstate);
+            if(res == false)
+                return;
+        }
+    }
+    
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n = graph.size();
+        state = vector<int>(101, -1);
+        // Unvisted = -1, A group = 0, B group = 1
+        
+        for(int i=0; i<n; i++){
+            if(state[i] == -1)
+                dfs(graph, i, 1);
+        }
+        
+        return res;
+    }
+};

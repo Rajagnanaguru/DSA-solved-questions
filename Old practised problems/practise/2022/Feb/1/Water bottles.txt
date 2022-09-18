@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int numWaterBottles(int numBottles, int numExchange) {
+        int drunk = numBottles;
+        int empty = numBottles;
+        
+        while(true){
+            if(empty < numExchange)
+                break;
+            
+            int newbottles = empty/numExchange;
+            drunk += newbottles;
+            
+            empty = empty%numExchange;
+            empty += newbottles;
+        }
+        
+        return drunk;
+    }
+};

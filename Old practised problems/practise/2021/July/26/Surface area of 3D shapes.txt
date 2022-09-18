@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int surfaceArea(vector<vector<int>>& grid) {
+        int res=0;
+        int r = grid.size();
+        int c = grid[0].size();
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(grid[i][j] != 0){
+                    res-=2*(grid[i][j]-1);
+                    res+=6*grid[i][j];
+
+
+                    int right =0;
+                    int bottom =0;
+                    if(j+1 <= c-1)
+                        right = min(grid[i][j], grid[i][j+1]);
+                    if(i+1 <= r-1)
+                        bottom = min(grid[i][j], grid[i+1][j]);
+
+                    res-=2*right;
+                    res-=2*bottom;
+                }
+            }
+        }
+        
+        return res;
+    }
+};

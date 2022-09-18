@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        map<int,int>hash;
+        
+        for(auto val:nums){
+            hash[val]++;
+            hash[val]--;
+            
+            if(hash[val] == 0)
+                hash[val]++;
+            else
+                return true;
+        }
+        
+        return false;
+    }
+};

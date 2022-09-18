@@ -1,0 +1,30 @@
+int lcs(string a, string b){
+        int n1 = a.length();
+        int n2 = b.length();
+        
+        vector<int>prev(n2+1, 0);
+        vector<int>curr(n2+1, 0);
+        
+        for(int i=1; i<=n1; i++){
+            for(int j=1; j<=n2; j++){
+                if(a[i-1] == b[j-1])
+                    curr[j] = 1 + prev[j-1];
+                else
+                    curr[j] = max(curr[j-1], prev[j]);
+            }
+            prev = curr;
+        }
+        
+        return prev[n2];
+    }
+    
+    public:
+	int minOperations(string str1, string str2) 
+	{ 
+	    // Your code goes here
+	    int n1 = str1.size();
+	    int n2 = str2.size();
+	    
+	    int lcsval = lcs(str1, str2);
+	    return (n1 - lcsval)+(n2 - lcsval);
+	} 

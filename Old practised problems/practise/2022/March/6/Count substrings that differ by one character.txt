@@ -1,0 +1,60 @@
+class Solution {
+public:
+    bool diffone(string s, string t){
+        int n1 = s.length();
+        int n2 = t.length();
+        
+        if(n1 != n2)
+            return false;
+        
+        int flag = 0;
+        
+        for(int i=0; i<n1; i++)
+            if(s[i] != t[i])
+                flag++;
+        
+        if(flag == 1)
+            return true;
+        
+        return false;
+    }
+    
+    int countSubstrings(string s, string t) {
+        int n1 = s.length();
+        int n2 = t.length();
+        string s1, s2;
+        
+        int res = 0;
+        
+        int l1;
+        for(int i=0; i<n1; i++){
+            int len = 1;
+            for(int j=i; j<n1; j++){
+                len = j-i+1;
+                l1 = len;
+                
+                s1 = s.substr(i, len);
+                for(int k=0; k<n2; k++){
+                    for(int l=k; l<n2; l++){
+                        len = l-k+1;
+                        if(l1 != len)
+                            continue;
+                        
+                        s2 = t.substr(k, len);
+                        
+                        //cout << s1 << ":" << s2 << "\n";
+                        if(diffone(s1, s2)){
+                            res++;
+                            break;
+                            //cout << s1 << ":" << s2 << "\n";
+                        }
+                    }
+                }
+                
+                
+            }
+        }
+        
+        return res;
+    }
+};

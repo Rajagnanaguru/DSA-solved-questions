@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int mostWordsFound(vector<string>& sentences) {
+        int res = -1;
+        
+        for(string s: sentences){
+            int curr = 0;
+            for(char c: s){
+                if(c == ' ')
+                    curr++;
+            }
+            
+            if(res < curr)
+                res = curr;
+        }
+        
+        return res+1;
+    }
+};

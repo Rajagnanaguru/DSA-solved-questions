@@ -1,0 +1,34 @@
+class Solution
+{
+    public:
+    
+    int lcs(string a, string b){
+        int n1 = a.length();
+        int n2 = b.length();
+        
+        vector<int>prev(n2+1, 0);
+        vector<int>curr(n2+1, 0);
+        
+        for(int i=1; i<=n1; i++){
+            for(int j=1; j<=n2; j++){
+                if(a[i-1] == b[j-1])
+                    curr[j] = 1 + prev[j-1];
+                else
+                    curr[j] = max(curr[j-1], prev[j]);
+            } 
+            prev = curr;
+        }
+        
+        return prev[n2];
+    }
+    
+    //Function to find length of shortest common supersequence of two strings.
+    int shortestCommonSupersequence(string X, string Y, int m, int n)
+    {
+        //code here
+        int lcsval = lcs(X, Y);
+        
+        return lcsval + (m - lcsval) + (n - lcsval);
+        
+    }
+};

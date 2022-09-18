@@ -1,0 +1,13 @@
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+        unordered_map<int,int> hash;
+        set<int>set;
+        for(auto val:arr)
+            hash[val]++;
+        for(auto x: hash)
+            set.insert(x.second);
+        
+        return set.size() == hash.size();
+    }
+};

@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int>res;
+        int count =0;
+        int r = matrix.size();
+        int c = matrix[0].size();
+        int left = 0;
+        int right = matrix[0].size()-1;
+        int top = 0;
+        int down = matrix.size()-1;
+        while(count != r*c){
+            for(int i=left;i<=right;i++){
+                res.push_back(matrix[top][i]);
+                if(++count == r*c)
+                    return res;
+            }
+            top++;
+            for(int j=top;j<=down;j++){
+                res.push_back(matrix[j][right]);
+                if(++count == r*c)
+                    return res;
+            }
+            right--;
+            for(int i=right;i>=left;i--){
+                res.push_back(matrix[down][i]);
+                if(++count == r*c)
+                    return res;
+            }
+            down--;
+            for(int j=down;j>=top;j--){
+                res.push_back(matrix[j][left]);
+                if(++count == r*c)
+                    return res;
+            }
+            left++;
+        }
+        
+        return res;
+    }
+};

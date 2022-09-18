@@ -1,0 +1,26 @@
+class Solution {
+public:
+    static bool comp(string a, string b){
+        sort(a.begin(), a.end());
+        sort(b.begin(), b.end());
+        
+        return a<=b;
+    }
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>>res;
+        
+        sort(strs.begin(), strs.end(), comp);
+        
+        map<string, vector<string>>mp;
+        for(auto val: strs){
+            string t = val;
+            sort(val.begin(), val.end());
+            mp[val].push_back(t);
+        }
+        
+        for(auto v: mp)
+            res.push_back(v.second);
+        
+        return res;
+    }
+};

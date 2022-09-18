@@ -1,0 +1,117 @@
+class Solution {
+public:
+    vector<vector<int>>memo;
+    
+    int func(int i, int j, vector<vector<int>>& grid){
+        if(i == 0 && j == 0)
+            return grid[i][j];
+        
+        if(i < 0 || j < 0)
+            return -1;
+        
+        if(memo[i][j] != -1)
+            return memo[i][j];
+        
+        int currsum = -1;
+        int left = func(i, j-1, grid);
+        int top = func(i-1, j, grid);
+        
+        if(left != -1 && top != -1){
+            int mini = min(left, top);
+            return memo[i][j] = grid[i][j] + mini;
+        }else if(left != -1)
+            return memo[i][j] = grid[i][j] + left;
+        else
+            return memo[i][j] = grid[i][j] + top;
+    }
+    
+    int minPathSum(vector<vector<int>>& grid) {
+        int r = grid.size();
+        int c = grid[0].size();
+        
+        memo = vector<vector<int>>(r, vector<int>(c, -1));
+        
+        return func(r-1, c-1, grid);
+    }
+};
+
+
+
+
+
+// Time complexity -> O(m*n)
+// Space complexity -> O(m*n)
+
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int r = grid.size();
+        int c = grid[0].size();
+        
+        vector<vector<int>>dp(r, vector<int>(c, -1));
+        
+        for(int i=0; i<r; i++){
+            for(int j=0; j<c; j++){
+                if(i == 0 && j == 0)
+                    dp[i][j] = grid[i][j];
+                else{
+                    int left = INT_MAX;
+                    int up = INT_MAX;
+
+                    if(i > 0)
+                        up = dp[i-1][j];
+                    if(j > 0)
+                        left = dp[i][j-1];
+
+                    int mini = min(up, left);
+
+                    dp[i][j] = grid[i][j]+mini;
+                }
+            }
+        }
+        
+        return dp[r-1][c-1];
+    }
+};
+
+
+
+// Time complexity -> O(m*n)
+// Space complexity -> O(n)
+
+
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int r = grid.size();
+        int c = grid[0].size();
+        
+        vector<int>prev(c, 0);
+        
+        for(int i=0; i<r; i++){
+            
+            vector<int>curr(c, 0);
+            for(int j=0; j<c; j++){
+                if(i == 0 && j == 0)
+                    curr[j] = grid[i][j];
+                else{
+                    int left = INT_MAX;
+                    int up = INT_MAX;
+
+                    if(i > 0)
+                        up = prev[j];
+                    if(j > 0)
+                        left = curr[j-1];
+
+                    int mini = min(up, left);
+
+                    curr[j] = grid[i][j]+mini;
+                }
+            }
+            
+            prev = curr;
+        }
+        
+        return prev[c-1];
+    }
+};

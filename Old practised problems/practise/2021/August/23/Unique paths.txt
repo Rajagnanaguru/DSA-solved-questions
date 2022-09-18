@@ -1,0 +1,54 @@
+class Solution {
+public:
+    
+    int uniquePaths(int m, int n) {
+        vector<vector<int>>dp(m+1, vector<int>(n+1, 0));
+        for(int i=1;i<=m;i++)
+            dp[i][1]=1;
+        for(int i=1;i<=n;i++)
+            dp[1][i]=1;
+        
+        for(int i=2;i<=m;i++)
+            for(int j=2;j<=n;j++)
+                dp[i][j] = dp[i-1][j]+dp[i][j-1];
+        
+        return dp[m][n];
+    }
+};
+
+____________________________________________
+
+class Solution {
+public:
+    set<pair<int,int>>founds;
+    map<pair<int,int>,int>memo;
+    int uniquePaths(int m, int n) {
+        pair<int,int>p;
+        p.first = m;
+        p.second = n;
+
+        if(founds.count(p) > 0)
+            return memo[p];
+        
+        int res=0;
+        if(n == 1 || m ==1){
+            pair<int,int>p;
+            p.first = m;
+            p.second = n;
+            
+            founds.insert(p);
+            memo[p] = 1;
+            return 1;
+        }
+    
+        res= uniquePaths(m, n-1) + uniquePaths(m-1,n);
+        
+        pair<int,int>pa;
+        pa.first = m;
+        pa.second = n;
+
+        founds.insert(pa);
+        memo[pa] = res;
+        return res;
+    }
+};

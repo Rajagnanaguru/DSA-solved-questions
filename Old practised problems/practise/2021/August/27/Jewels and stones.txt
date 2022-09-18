@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int numJewelsInStones(string jewels, string stones) {
+        int res=0;
+       
+        map<char,int>stone;
+        set<char>sets;
+        
+        for(auto val: stones){
+            sets.insert(val);
+            stone[val]++;
+        }
+        
+        for(char j: jewels){
+            if(sets.count(j) > 0)
+                res+= stone[j];
+        }
+        
+        
+        return res;
+    }
+};

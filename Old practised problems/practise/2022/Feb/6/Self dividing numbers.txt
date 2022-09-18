@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool isSelf(int a){
+        int val = a;
+        while(a > 0){
+            int dig = a%10;
+            if(dig == 0)
+                return false;
+            
+            if(val%dig != 0)
+                return false;
+             a = a/10;
+        }
+        
+        return true;
+    }
+    
+    vector<int> selfDividingNumbers(int left, int right) {
+        vector<int>res;
+        
+        for(int i=left; i<=right; i++){
+            if(isSelf(i))
+                res.push_back(i);
+        }
+        
+        return res;
+    }
+};

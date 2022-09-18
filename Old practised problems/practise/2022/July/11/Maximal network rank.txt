@@ -1,0 +1,89 @@
+class Solution {
+public:
+    static int comp(vector<int>a, vector<int>b){
+        return a[1] > b[1];    
+    }
+    
+    int maximalNetworkRank(int n, vector<vector<int>>& roads) {
+        vector<vector<int>>connections(n);
+        int res = 0;
+        vector<vector<int>>ranks;
+        
+        int nr = roads.size();
+        for(int i=0; i<nr; i++){
+            int node1 = roads[i][0];
+            int node2 = roads[i][1];
+            
+            connections[node1].push_back(node2);
+            connections[node2].push_back(node1);
+        }
+        
+        for(int i=0; i<n; i++){
+            vector<int>t;
+            t.push_back(i);
+            t.push_back(connections[i].size());
+            ranks.push_back(t);
+        }
+        
+        sort(ranks.begin(), ranks.end(), comp);
+        int rank1 = ranks[0][1];
+        int rank2 = ranks[1][1];
+        int node1, node2;
+        
+        cout << rank1 << " " << rank2 << "\n";
+        
+        if(rank1 == rank2){
+            int trank = rank1;
+            res = 2*trank - 1;
+            
+            for(int i=0; i<n; i++){
+                if(ranks[i][1] != trank)
+                    break;
+                
+                for(int j=i+1; j<n; j++){
+                    if(ranks[j][1] != trank)
+                        break;
+                    
+                    int conn_there = 0;
+                    
+                    for(auto &val: connections[ranks[i][0]]){
+                        if(ranks[j][0] == val){
+                            conn_there = 1;
+                            break;
+                        }
+                    }
+                    
+                    if(conn_there == 0){
+                        res = 2*trank;
+                        break;
+                    }
+                }
+            }    
+        }else{
+            int trank = rank2;
+            res = rank1+rank2 - 1;
+       
+            for(int j=1; j<n; j++){
+                int conn_there = 0;
+                if(ranks[j][1] != trank)
+                    break;
+
+                for(auto &val: connections[ranks[0][0]]){
+                    if(ranks[j][0] == val){
+                        conn_there = 1;
+                        break;
+                    }
+                }
+                
+                if(conn_there == 0){
+                    res = rank1+rank2;
+                    break;
+                } 
+            }
+        
+        }
+        
+        
+        return res;
+    }
+};

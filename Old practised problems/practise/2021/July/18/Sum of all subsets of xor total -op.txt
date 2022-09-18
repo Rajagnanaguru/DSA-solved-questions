@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int subsetXORSum(vector<int>& nums) {
+        
+        int res=0;
+        // Finding the subsets using iterative method
+        vector<vector<int>>subsets;
+        vector<int>t;
+        int n = nums.size();
+        
+        
+        subsets.push_back(t);
+        for(int i=0;i<n;i++){
+            vector<vector<int>>tmp;
+            for(vector<int> v:subsets){
+                v.push_back(nums[i]);
+                tmp.push_back(v);
+            }
+            for(vector<int> v:tmp)
+                subsets.push_back(v);
+        }
+        
+        // Finding xor for each vector and adding them
+        for(vector<int> v:subsets){
+            if(v.size() > 0){
+                int tmp=v[0];
+                for(int i=1;i<v.size();i++)
+                    tmp = tmp^v[i];
+                res+=tmp;
+            }
+        }
+        return res;
+    }
+};

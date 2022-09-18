@@ -1,0 +1,16 @@
+class Solution {
+public:
+    double average(vector<int>& salary) {
+        int max = 0;
+        int min = INT_MAX;
+        double tot=0;
+        for(auto val:salary){
+            tot+=val;
+            if(val > max)
+                max = val;
+            if(val < min)
+                min = val;
+        }
+        return (tot-min-max)/(salary.size()-2);
+    }
+};

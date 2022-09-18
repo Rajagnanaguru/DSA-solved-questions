@@ -1,0 +1,15 @@
+class Solution {
+public:
+    string restoreString(string s, vector<int>& indices) {
+        int n = indices.size();
+        string res;
+        int count = n;
+        while(count--)
+            res.push_back('a');
+        
+        for(int i=0;i<n;i++)
+            res[indices[i]]=s[i];
+        
+        return res;
+    }
+};

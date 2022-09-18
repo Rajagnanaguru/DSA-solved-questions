@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {  // Time complexity - O(n) 
+        int minp = 0;
+        int res = -1;
+        int n = prices.size();
+        
+        vector<int>least(n, 0);  // Calculate the minimum number before its index
+        
+        int min = INT_MAX;
+        for(int i=0; i<n; i++){
+            least[i] = min;
+            
+            if(prices[i] < min)
+                min = prices[i];
+        }
+        
+        // for(auto val: least)
+        //     cout << val <<" ";
+        
+        for(int i=0; i<n; i++){
+            if(prices[i] > least[i]){
+                int diff = prices[i] - least[i];
+                if(res < diff)
+                    res = diff;
+            }    
+        }
+        
+        if(res == -1)
+            return 0;
+        
+        return res;
+    }
+};

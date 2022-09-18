@@ -1,0 +1,49 @@
+class Trie {
+public:
+    set<string>got;
+    
+    Trie() {
+        got.clear();
+    }
+    
+    void insert(string word) {
+        got.insert(word);
+    }
+    
+    bool search(string word) {
+        return (got.count(word) > 0);
+    }
+    
+    bool startsWith(string prefix) {
+        int flag = 0;
+        
+        for(auto prev: got){
+            int herelen = prev.length();
+            
+            flag = 1;
+            
+            int len = prefix.length();
+            
+            if(herelen >= len){
+                for(int i=0; i<len; i++)
+                    if(prefix[i] != prev[i]){
+                        flag = 0;
+                        break;
+                    }
+
+                if(flag == 1)
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */

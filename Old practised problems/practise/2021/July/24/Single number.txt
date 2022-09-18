@@ -1,0 +1,10 @@
+class Solution {
+public:
+// Using xor property
+    int singleNumber(vector<int>& nums) {
+        int res=0;
+        for(auto val: nums)
+            res^=val;
+        return res;
+    }    
+};

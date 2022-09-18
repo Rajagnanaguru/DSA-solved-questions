@@ -1,0 +1,70 @@
+struct Node {
+    Node *links[26];
+    bool flag = false;
+    bool containsKey(char c){
+        if(links[c-'a'] != NULL)
+            return true;
+        return false;
+    }
+};
+
+class Trie {
+private:
+    Node* root;
+    
+public:
+    
+    Trie() {
+        root = new Node();
+    }
+    
+    void insert(string word) {
+        int len = word.length();
+        
+        Node* node = root;
+        for(int i=0; i<len; i++){
+            char c = word[i];
+            
+            if(!node->containsKey(c))
+                node->links[c - 'a'] = new Node();
+            node = node->links[c-'a'];
+        }
+        node->flag = true;
+    }
+    
+    bool search(string word) {
+        int len = word.length();
+        
+        Node* node = root;
+        for(int i=0; i<len; i++){
+            char c = word[i];
+            
+            if(!node->containsKey(c))
+                return false;
+            node = node->links[c-'a'];
+        }
+        return (node->flag == true);
+    }
+    
+    bool startsWith(string prefix) {
+        int len = prefix.length();
+        
+        Node* node = root;
+        for(int i=0; i<len; i++){
+            char c = prefix[i];
+            
+            if(!node->containsKey(c))
+                return false;
+            node = node->links[c-'a'];
+        }
+        return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */

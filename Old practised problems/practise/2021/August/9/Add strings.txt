@@ -1,0 +1,52 @@
+class Solution {
+public:
+    string addStrings(string num1, string num2) {
+        string res;
+        reverse(num1.begin(), num1.end());
+        reverse(num2.begin(), num2.end());
+        
+        int n1 = num1.size();
+        int n2 = num2.size();
+        
+        int min = n1<n2?n1:n2;
+        int max = n1>n2?n1:n2;
+        
+        int flag = n1 == min?1:2;
+        int carry = 0;
+        
+        int a,b,c;
+        for(int i=0;i<max;i++){
+            
+            if(i < n1 && i < n2){
+                a = num1[i] - '0';
+                b = num2[i] - '0';
+                
+                c = a+b+carry;
+                
+            }else{
+                if(i < n1){
+                    a = num1[i]-'0';
+                    c = a+carry;   
+                }else{
+                    b = num2[i]-'0';
+                    c = b+carry;
+                }
+            }
+            if(c/10 != 0)
+                carry = c/10;
+            else
+                carry = 0;
+            
+            char ch = c%10 + '0';
+            res.push_back(ch);
+            
+        }
+        if(carry != 0){
+            char ch = carry + '0';
+            res.push_back(ch);
+        }
+        reverse(res.begin(), res.end());
+        
+        return res;
+    }
+};

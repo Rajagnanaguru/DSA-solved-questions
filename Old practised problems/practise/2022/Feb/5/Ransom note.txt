@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        vector<int>v1(26, 0);
+        vector<int>v2(26, 0);
+        
+        for(auto val: ransomNote)
+            v1[val-'a']++;
+        
+        for(auto val: magazine)
+           v2[val-'a']++;
+            
+        int n = ransomNote.size();
+        
+        for(int i=0; i<26; i++){
+            if(v1[i] > v2[i])
+                return false;
+        }
+        
+        return true;
+    }
+};

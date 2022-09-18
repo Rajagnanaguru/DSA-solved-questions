@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<vector<int>>>memo;
+    int n = 0;
+    
+    int func(int i, int buy, int k, vector<int>&prices){
+        if(i >= n || k <= 0)
+            return 0;
+        
+        if(memo[i][buy][k] != -1)
+            return memo[i][buy][k];
+        
+        if(buy == 1){
+            int notbought = 0 + func(i+1, 1, k, prices);
+            int bought = -prices[i] + func(i+1, 0, k, prices);
+            
+            return memo[i][buy][k] = max(notbought, bought);
+        }
+        
+        int notsell = 0 + func(i+1, 0, k, prices);
+        int sell = prices[i] + func(i+1, 1, k-1, prices);
+        
+        return  memo[i][buy][k] = max(notsell, sell);
+    }
+    
+    int maxProfit(vector<int>& prices) {
+        n = prices.size();
+        
+        memo = vector<vector<vector<int>>>(n+1,
+                vector<vector<int>>(2, vector<int>(3, -1)));
+        
+        int buy = 1;
+        return func(0, buy, 2, prices);
+    }
+};

@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int heightChecker(vector<int>& heights) {
+        vector<int>arr(101,0);
+        int res=0;
+        for(auto val:heights)
+            arr[val]++;
+        vector<int>exp;
+        for(int i=0;i<100;i++){
+            while(arr[i]--)
+                exp.push_back(i);
+        }
+        
+        for(int i=0;i<heights.size();i++){
+            if(heights[i] != exp[i])
+                res++;
+        }
+        return res;
+    }
+};

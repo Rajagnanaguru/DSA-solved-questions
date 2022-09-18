@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool isPalin(string s){
+        int n = s.length();
+        if(n == 0 || n == 1)
+            return true;
+        
+        if(s[0] == s[n-1]){
+            string sub = s.substr(1, n-2);
+            return isPalin(sub);
+        }
+        
+        return false;
+    }
+    
+    string firstPalindrome(vector<string>& words) {
+        string res = "";
+        
+        for(auto val: words){
+            if(isPalin(val))
+                return val;
+        }
+        
+        return res;
+    }
+};

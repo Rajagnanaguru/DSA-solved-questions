@@ -1,0 +1,35 @@
+class Solution {
+public:
+    
+    int longestPalindrome(string s) {
+        set<char>all;
+        set<char>::iterator itr;
+        
+        int res = 0;
+        
+        int oddflag = 0;
+        
+        map<char, int>count;
+        
+        for(char c: s){
+            all.insert(c);
+            count[c]++;
+        }
+        
+        int n = all.size();
+        
+        for(itr = all.begin(); itr != all.end(); itr++){
+            // cout << *itr << " ";
+            if(count[*itr]%2 == 0)
+                res += count[*itr];
+            else{
+                res += count[*itr]-1;
+                oddflag = 1;
+            }
+        }
+        
+        res += oddflag;
+        
+        return res;
+    }
+};

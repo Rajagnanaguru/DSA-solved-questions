@@ -1,0 +1,173 @@
+class Solution {
+public:
+    vector<vector<int>> queensAttacktheKing(vector<vector<int>>& queens, vector<int>& king) {
+        vector<vector<int>>res;
+        vector<vector<int>>top;
+        vector<vector<int>>down;
+        vector<vector<int>>left;
+        vector<vector<int>>right;
+        vector<vector<int>>ldiagt;
+        vector<vector<int>>ldiagd;
+        vector<vector<int>>rdiagd;
+        vector<vector<int>>rdiagt;
+        
+        for(vector<int> arr: queens){
+           if(king[0]==arr[0] && king[1]>arr[1]){
+               vector<int> tmp;
+               tmp.push_back(arr[0]);
+               tmp.push_back(arr[1]);
+               left.push_back(tmp);
+            }
+            if(king[0]==arr[0] && king[1]<arr[1]){
+               vector<int> tmp;
+               tmp.push_back(arr[0]);
+               tmp.push_back(arr[1]);
+               right.push_back(tmp);
+            }
+            if(king[0]>arr[0] && king[1]==arr[1]){
+               vector<int> tmp;
+               tmp.push_back(arr[0]);
+               tmp.push_back(arr[1]);
+               top.push_back(tmp);
+            }
+            if(king[0]<arr[0] && king[1]==arr[1]){
+               vector<int> tmp;
+               tmp.push_back(arr[0]);
+               tmp.push_back(arr[1]);
+               down.push_back(tmp);
+            }
+            // Diag
+            if(king[0]+king[1]==arr[0]+arr[1] && king[1]>arr[1]){
+               vector<int> tmp;
+               tmp.push_back(arr[0]);
+               tmp.push_back(arr[1]);
+               rdiagd.push_back(tmp);
+            }
+            if(king[0]+king[1]==arr[0]+arr[1] && king[1]<arr[1]){
+               vector<int> tmp;
+               tmp.push_back(arr[0]);
+               tmp.push_back(arr[1]);
+               rdiagt.push_back(tmp);
+            }
+            if(king[0]-king[1]==arr[0]-arr[1] && king[0]>arr[0]){
+               vector<int> tmp;
+               tmp.push_back(arr[0]);
+               tmp.push_back(arr[1]);
+               ldiagt.push_back(tmp);
+            }
+            if(king[0]-king[1]==arr[0]-arr[1] && king[0]<arr[0]){
+               vector<int> tmp;
+               tmp.push_back(arr[0]);
+               tmp.push_back(arr[1]);
+               ldiagd.push_back(tmp);
+            }
+               
+        }
+        
+        int max = INT_MIN;  
+        if(left.size()>0){
+            for(vector<int>tmp:left){
+                if(tmp[1] > max)
+                    max = tmp[1];
+
+            }
+            vector<int>v;
+            v.push_back(king[0]);
+            v.push_back(max);
+            res.push_back(v);
+        }
+        
+        int min = INT_MAX;
+        if(right.size()>0){
+            for(vector<int>tmp:right){
+                if(tmp[1]<min)
+                    min = tmp[1];
+            }
+            vector<int>v;
+            v.push_back(king[0]);
+            v.push_back(min);
+            res.push_back(v);
+        }
+        
+        max = INT_MIN;
+        if(top.size()>0){
+            for(vector<int>tmp:top){
+                if(tmp[0] > max)
+                    max = tmp[0];
+
+            }
+            vector<int>v;
+            v.push_back(max);
+            v.push_back(king[1]);
+            res.push_back(v);
+        }
+        
+        min=INT_MAX;  
+        if(down.size()>0){
+            for(vector<int>tmp:down){
+                if(tmp[0] < min)
+                    min = tmp[0];
+
+            }
+            vector<int>v;
+            v.push_back(min);
+            v.push_back(king[1]);
+            res.push_back(v);
+        }
+        
+        // Diagonals
+        max=INT_MIN;
+        if(ldiagt.size() > 0){
+            for(vector<int>tmp:ldiagt){
+                if(tmp[0] > max)
+                    max = tmp[0];
+            }
+            vector<int>v;
+            v.push_back(max);
+            v.push_back(max-(king[0]-king[1]));
+            res.push_back(v);
+            cout<<"lt";
+        }
+        
+        max = INT_MIN;
+        if(rdiagt.size() >0){
+            for(vector<int>tmp:rdiagt){
+                if(tmp[0] > max)
+                    max = tmp[0];
+            }
+            vector<int>v;
+            v.push_back(max);
+            v.push_back(king[0]+king[1]-max);
+            res.push_back(v);
+            cout<<"rt";
+        }
+        
+        min = INT_MAX;
+        if(ldiagd.size() >0){ 
+            for(vector<int>tmp:ldiagd){
+                if(tmp[0] < min)
+                    min = tmp[0];
+            }
+            vector<int>v;
+            v.push_back(min);
+            v.push_back(min-(king[0]-king[1]));
+            res.push_back(v);
+            cout<<"ld";
+        }
+        
+        min = INT_MAX;
+        if(rdiagd.size() >0){
+             for(vector<int>tmp:rdiagd){
+                if(tmp[0] < min)
+                    min = tmp[0];
+            }
+            vector<int>v;
+            v.push_back(min);
+            v.push_back(king[0]+king[1]-min);
+            res.push_back(v);
+            cout<<"rd";
+        }
+        
+        return res;
+    }
+};

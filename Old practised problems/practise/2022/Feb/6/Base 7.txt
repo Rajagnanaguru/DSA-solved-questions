@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string convertToBase7(int num) {
+        string res;
+        int neg = 0;
+        if(num < 0){
+            neg = 1;
+            num *= -1;
+        }
+        
+        while(num >= 7){
+            int dig = num%7;
+            num /= 7;
+            
+            res.insert(0, to_string(dig));
+        }
+        
+        
+        res.insert(0, to_string(num));
+        
+        if(neg == 1)
+            res.insert(0, "-");
+        return res;
+    }
+};

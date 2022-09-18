@@ -1,0 +1,65 @@
+class Solution {
+public:
+    vector<char>incre = {'1','2','3','4','5','6','7','8','9','0'};
+    vector<char>decre = {'9','0','1','2','3','4','5','6','7','8'};
+    
+    vector<string> allnextmoves(string s){
+        vector<string>res;
+        
+        for(int i=0; i<4; i++){
+            string tmp1, tmp2;
+            tmp1 = s;
+            tmp2 = s;
+            
+            tmp1[i] = incre[tmp1[i]-'0'];
+            tmp2[i] = decre[tmp2[i]-'0'];
+            
+            res.push_back(tmp1);
+            res.push_back(tmp2);
+        }
+        
+        return res;
+    }
+    
+    set<string>visited;
+    
+    int openLock(vector<string>& deadends, string target) {
+        int res = 0;
+        
+        for(auto &val: deadends)
+            visited.insert(val);
+        
+        vector<string>toTraverse;
+        toTraverse.push_back("0000");
+        
+        if(visited.count("0000") > 0)
+            return -1;
+        else
+            visited.insert("0000");
+        
+        while(!toTraverse.empty()){
+            set<string>nextTrav;
+            
+            for(auto &state: toTraverse){
+                if(state == target)
+                    return res;
+
+                visited.insert(state);
+                
+                vector<string>toAdd = allnextmoves(state);
+                
+                for(auto &val: toAdd){
+                    if(visited.count(val) > 0)
+                        continue;
+                    
+                    nextTrav.insert(val);
+                }
+            }
+            
+            toTraverse = vector<string>(nextTrav.begin(), nextTrav.end());
+            res++;
+        }
+        
+        return -1;
+    }
+};

@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> sortArrayByParity(vector<int>& nums) {
+        
+        //Space complexity - O(1)
+        for(int i=0,j=0;j<nums.size();j++)
+            if(nums[j]%2 == 0)
+                swap(nums[i++],nums[j]);
+            
+         
+        /*
+        Space complexity - O(n)
+        vector<int>res(nums.size(),0);
+        for(auto val: nums){
+            if(val%2 == 0)
+                res[even++]=val;
+            else
+                res[odd--]=val;
+        }
+        return res;
+        */
+        return nums;
+    }
+};

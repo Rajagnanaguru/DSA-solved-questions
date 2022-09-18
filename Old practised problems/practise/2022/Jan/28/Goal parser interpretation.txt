@@ -1,0 +1,22 @@
+class Solution {
+public:
+    string interpret(string command) {
+        string res = "";
+        int n = command.length();
+        
+        for(int i=0; i<n; i++){
+            if(command[i] == 'G')
+                res += "G";
+            if(command[i] == '('){
+                if(command[++i] == ')'){
+                    res += "o";
+                }else{
+                    i += 2;
+                    res += "al";
+                }
+            }
+        }
+        
+        return res;
+    }
+};

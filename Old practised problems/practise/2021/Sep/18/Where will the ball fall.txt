@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<int> findBall(vector<vector<int>>& grid) {
+        int r = grid.size();
+        int c = grid[0].size();
+        
+        vector<int>res(c, -1);
+        
+        for(int i=0;i<c;i++){
+            int curr = i;
+            int block = 0;
+            int row = 0;
+            while(true){
+                if(row >= r)
+                    break;
+                
+                if(grid[row][curr] == 1){
+                    if(curr+1 < c && grid[row][curr+1] == 1){
+                        curr++;
+                        row++;
+                    }else{
+                        block = 1;
+                        break;
+                    }
+                }else{
+                    if(curr-1 >= 0 && grid[row][curr-1] == -1){
+                        curr--;
+                        row++;
+                    }else{
+                        block = 1;
+                        break;
+                    }
+                }
+                
+            }   
+                
+            if(block == 0)
+                res[i] = curr;
+        }
+        
+        return res;
+    }
+};

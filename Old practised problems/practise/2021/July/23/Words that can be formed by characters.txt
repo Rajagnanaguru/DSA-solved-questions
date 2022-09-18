@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int countCharacters(vector<string>& words, string chars) {
+        int res =0;
+        vector<int>hash(26,0);
+        
+        for(auto val:chars)
+            hash[val-'a']++;
+        
+        for(auto s: words){
+            string tmp = chars;
+            
+            vector<int>thash(26,0);
+            for(auto c: s)
+                thash[c-'a']++;
+            
+            int flag = 0;
+            for(int i=0;i<26;i++){
+                if(hash[i]!=0 && thash[i] <= hash[i])
+                    continue;
+                else if(hash[i] == 0 && thash[i] > hash[i]){
+                    flag = 1;
+                    break;
+                }
+                else if(hash[i]!=0 && thash[i] > hash[i]){
+                    flag = 1;
+                    break;
+                }
+            }
+            
+            if(!flag)
+                res+=s.length();
+        }
+        
+        return res;
+    }
+};

@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> minSubsequence(vector<int>& nums) {
+        vector<int> res;
+        sort(nums.begin(),nums.end(), [](int a, int b)->bool{return a>b;}); // Sorting in descending order
+        
+        int tot = 0;
+        for(auto val:nums)
+            tot+=val;
+
+        int tmp=0;
+        int rem = tot;
+        for(auto val:nums){  // Greedy approach
+            if(tmp > rem)
+                break;
+            res.push_back(val);
+            tmp+= val;
+            rem-= val;
+        }
+        return res;
+    }
+};

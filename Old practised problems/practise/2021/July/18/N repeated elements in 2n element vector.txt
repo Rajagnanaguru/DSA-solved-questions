@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int repeatedNTimes(vector<int>& nums) {
+        int res;
+        map<int,int>map;
+        for(auto val:nums){
+            map[val]++;
+            if(map[val] >1)
+                return val;
+        }
+        return res;
+    }
+};

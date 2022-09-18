@@ -1,0 +1,62 @@
+class Solution {
+public:
+    int find(vector<int>&parent, int node){
+        int par = parent[node];
+        
+        while(par != parent[par])
+            par = parent[par];
+        
+        return par;
+    }
+    
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        vector<int>parent(n);
+        vector<int>rank(n);
+        int redundants = 0;
+        
+        for(int i=0; i<n; i++){
+            parent[i] = i;
+            rank[i] = 1;   
+        }
+        
+        int nc = connections.size();
+        
+        for(int i=0; i<nc; i++){
+            vector<int>curr = connections[i];
+            int firstNode = curr[0];
+            int secondNode = curr[1];
+            
+            int parent1 = find(parent, firstNode);
+            int parent2 = find(parent, secondNode);
+            
+            if(parent1 == parent2){
+                redundants++;
+                continue;
+            }
+            
+            int rank1 = rank[parent1];
+            int rank2 = rank[parent2];
+            
+            if(rank1 >= rank2){
+                parent[parent2] = parent1;
+                rank[parent1] += rank2;
+            }else{
+                parent[parent1] = parent2;
+                rank[parent2] += rank1;
+            }
+        }
+        
+        int components = 0;
+        for(int i=0; i<n; i++)
+            if(parent[i] == i)
+                components++;
+        
+        int remaining = components-1;
+        
+        //cout << "Redundants: " << redundants << "   Remaining: "<< remaining<<"\n";
+        if(redundants >= remaining)
+            return remaining;
+        
+        return -1;
+    }
+};

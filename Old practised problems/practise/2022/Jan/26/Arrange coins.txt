@@ -1,0 +1,35 @@
+class Solution {
+public:
+    long getVal(long x){
+        long res = (x*(x+1))/2;
+        return res;
+    }
+    
+    int arrangeCoins(int n) {
+        long l = 1;
+        long r = 66000;
+        long mid;
+        
+        while(l < r){
+            mid = (l+r)/2;
+            
+            if(l == mid)
+                return l;
+            
+            //cout<<"mid: "<<mid<<" l: "<<l<<" r: "<<r<<"\n";
+            if(getVal(mid) == n)
+                return mid;
+            else if(getVal(mid) > n)
+                r = mid;
+            else if(getVal(mid) < n)
+                l = mid;
+            
+            if(getVal(l) == n)
+                return l;
+            if(getVal(r) == n)
+                return r;
+        }
+        
+        return l;
+    }
+};

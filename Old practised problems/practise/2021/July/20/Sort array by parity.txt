@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<int> sortArrayByParityII(vector<int>& nums) {
+        int maxe=1001;
+        int odd=1;
+        int even=0;
+        for(int i=0;i<nums.size();i++){
+            if((nums[i]%maxe)%2 == 0){
+                nums[even]=(nums[i]%maxe)*maxe + (nums[even]%maxe);
+                even+=2;
+            }else{
+                nums[odd]=(nums[i]%maxe)*maxe + (nums[odd]%maxe);
+                odd+=2;
+            }
+        }
+        
+        for(auto& val:nums)
+            val = val/maxe;
+        
+        
+        return nums;
+    } 
+};

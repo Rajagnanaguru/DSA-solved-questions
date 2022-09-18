@@ -1,0 +1,57 @@
+int N;
+    int largestIsland(vector<vector<int>>& grid) {
+        int ans = 0;
+        N = size(grid);
+        int index = 2;
+        cout<<"N:"<<N<<"\n";
+        map<int,int>map;
+        
+        // Allocating index to islands
+        for(int i=0;i<N;i++)
+            for(int j=0;j<N;j++)
+                if(grid[i][j] == 1){
+                    map[index] = dfs(grid,i,j,index);
+                    ans = max(map[index++],ans);
+                }
+        
+        
+        //Searching for 0s and connecting islands
+        for(int i=0;i<N;i++)
+            for(int j=0;j<N;j++)
+                if(grid[i][j] == 0){
+                    int cnt =1;
+                    set<int>seen = {};
+                    
+                    for(auto p: sides(i,j)){
+                        index = grid[p.first][p.second];
+                        if(index > 1 && seen.count(index)==0){
+                            cnt+= map[index];
+                            seen.insert(index);
+                        }
+                    }
+                    ans = max(cnt, ans);
+                }
+        
+        return ans;
+    }
+    int dfs(vector<vector<int>>&grid, int i, int j, int index){
+        
+        grid[i][j]= index;
+        int count = 1;
+        
+        for(auto p: sides(i,j))
+            if(grid[p.first][p.second] == 1)
+                count+= dfs(grid, p.first,p.second,index);
+  
+        return count;
+    }
+    bool valid(int x, int y){
+        return !(x < 0 || x >= N || y < 0 || y >= N);
+    }
+    vector<pair<int,int>>sides(int x, int y){
+        vector<pair<int,int>> res;
+        for(auto p: vector<pair<int,int>>{{-1,0},{1,0},{0,-1},{0,1}})
+            if(valid(x+p.first,y+p.second))
+                res.push_back(make_pair(x+p.first, y+p.second));
+        return res;
+    }

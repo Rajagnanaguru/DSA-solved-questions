@@ -1,0 +1,39 @@
+class Solution {
+public:
+    set<int>nodes;
+    map<int,int>freq;
+    int flag = 0;
+    int found = 0;
+    int sum = 0;
+    void trav(TreeNode* root){
+        if(flag == 0){
+            if(root == NULL)
+                return;
+            trav(root->left);
+            nodes.insert(root->val);
+            freq[root->val]++;
+
+            trav(root->right);
+        }else{
+            if(root == NULL)
+                return;
+            trav(root->left);
+            if(2*root->val != sum){
+                if(nodes.count(sum-root->val)>0)
+                    found = 1;
+            }else{
+                if(freq[root->val] > 1)
+                    found = 1;
+            }
+            trav(root->right);
+        }
+    }
+    bool findTarget(TreeNode* root, int k) {
+        sum = k;
+        trav(root);
+        flag = 1;
+        trav(root);
+        
+        return found;
+    }
+};

@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int findFinalValue(vector<int>& nums, int original) {
+        int res = original;
+        set<int> all;
+        
+        for(auto val: nums)
+            all.insert(val);
+        
+        while(true){
+            if(all.count(res) == 1)
+                res *= 2;
+            else
+                break;
+        }
+        
+        return res;
+    }
+};

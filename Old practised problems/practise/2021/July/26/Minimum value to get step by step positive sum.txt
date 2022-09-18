@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int minStartValue(vector<int>& nums) {
+        int min = INT_MAX;
+        int prev=0;
+        for(auto val:nums){
+            if(val+prev < min)
+                min = val+prev;
+            prev = val+prev;
+        }
+        
+        if(min >= 0)
+            return 1;
+        else
+            return 1-min;
+    }
+};

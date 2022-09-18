@@ -1,0 +1,27 @@
+class Solution {
+public:
+    double trimMean(vector<int>& arr) {
+        int n = arr.size();
+        double res = 0;
+        
+        int ele = 0.05*n;
+        
+        sort(arr.begin(), arr.end());
+        
+        int times = ele;
+        while(times--)
+            arr.erase(arr.begin());
+        
+        times = ele;
+        
+        while(times--)
+            arr.erase(arr.end()-1);
+        
+        for(auto val: arr)
+            res += val;
+        
+        res /= arr.size();
+        
+        return res;
+    }
+};

@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int specialArray(vector<int>& nums) {
+        int l = 1;
+        int r = nums.size();
+        int mid;
+        
+        while(l<=r){
+            mid = (l+r)/2;
+ 
+            int c=0;
+            for(auto val: nums){
+                if(val >= mid)
+                    c++;
+            }
+            
+            if(mid == c)
+                return mid;
+            else if(c > mid)
+                l = mid+1; 
+            else
+                r = mid-1;
+        }
+        
+        return -1;
+    }
+};

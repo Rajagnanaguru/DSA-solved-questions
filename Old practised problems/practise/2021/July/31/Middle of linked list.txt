@@ -1,0 +1,40 @@
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        // Slow and fast pointers
+        ListNode* slow = head;
+        ListNode* fast = head;
+        
+        while(fast!= NULL && fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        return slow;
+        /*
+        int n = 0; 
+        ListNode* tmp = head;
+        while(tmp != NULL){
+            n++;
+            tmp = tmp->next;
+        }
+        
+        cout<<n;
+        
+        int c= 0;
+        tmp = head;
+        
+        while(tmp != NULL){
+            if(c == n/2 - 1){
+                head = tmp->next;
+                break;
+            }
+            
+            c++;
+            tmp = tmp->next;
+        }
+        
+        return head;
+        */
+    }
+};

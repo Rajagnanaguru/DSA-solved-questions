@@ -1,0 +1,72 @@
+class Solution {
+public:
+    int n;
+    vector<int>len;
+    vector<vector<int>>memo;
+    
+    int func(int row, int col, vector<vector<int>>& triangle){
+        if(row == n-1)
+            return memo[row][col] = triangle[row][col];
+        
+        if(memo[row][col] != -1)
+            return memo[row][col];
+        
+        int directdown = triangle[row][col] + func(row+1, col, triangle);
+        int rightdown = triangle[row][col] + func(row+1, col+1, triangle);
+        
+        return memo[row][col] = min(directdown, rightdown);        
+    }
+    
+    int minimumTotal(vector<vector<int>>& triangle) {
+        n = triangle.size();
+        memo = triangle;
+        
+        for(int i=0; i<n; i++){
+            int tmp = triangle[i].size();
+            len.push_back(tmp);
+        }
+        
+        for(int i=0; i<n; i++)
+            for(int j=0; j<len[i]; j++)
+                memo[i][j] = -1;
+        
+        return func(0, 0, triangle);
+    }
+};
+
+
+
+// Space optimization
+// T -> O(no of elements)
+// T -> O(no of elements in last row)
+
+class Solution {
+public:
+    
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int n = triangle.size();
+        
+        vector<int>len;
+        for(int i=0; i<n; i++)
+            len.push_back(triangle[i].size());
+        
+        vector<int>prev(len[n-1], 0);
+        vector<int>curr(len[n-1], 0);
+    
+        for(int i=n-1; i>=0; i--){
+            for(int j=len[i]-1; j>=0; j--){
+                if(i == n-1)
+                    curr[j] = triangle[i][j];
+                else{
+                    int directdown = prev[j];
+                    int rightdown = prev[j+1];
+                    
+                    curr[j] = triangle[i][j] + min(directdown, rightdown);
+                }
+            }
+            prev = curr;
+        }
+        
+        return prev[0];
+    }
+};

@@ -1,0 +1,53 @@
+class Solution {
+public:
+    vector<int>qt;
+    
+    void topoSort(vector<vector<int>>&adj, vector<int>&indeg, vector<int>&res){
+        int n = res.size();
+        
+        queue<int>qe;
+        
+        for(int i=0; i<n; i++)
+            if(indeg[i] == 0)
+                qe.push(i);
+        
+        while(!qe.empty()){
+            int curr = qe.front();
+            qe.pop();
+            
+            vector<int>toTrav = adj[curr];
+            for(auto &node: toTrav){
+                int nodeval = qt[res[node]];
+                int currval = qt[res[curr]];
+                
+                if(currval < nodeval)
+                    res[node] = res[curr];
+                
+                indeg[node]--;
+                if(indeg[node] == 0)
+                    qe.push(node);
+            }
+        }
+    }
+    
+    vector<int> loudAndRich(vector<vector<int>>& richer, vector<int>& quiet) {
+        int n = quiet.size();
+        qt = quiet;
+        
+        vector<int>res(n, 0);
+        for(int i=0; i<n; i++)
+            res[i] = i;
+        
+        vector<vector<int>>adj(n);
+        vector<int>indeg(n, 0);
+        
+        for(auto &edge: richer){
+            adj[edge[0]].push_back(edge[1]);
+            indeg[edge[1]]++;
+        }
+        
+        topoSort(adj, indeg, res);
+        
+        return res;
+    }
+};

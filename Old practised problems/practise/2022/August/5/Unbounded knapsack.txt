@@ -1,0 +1,72 @@
+vector<vector<int>>memo;
+
+int func(int i, int remain, vector<int>&profit, vector<int>&weight){
+    if(i == 0){
+        if(remain == 0)
+            return 0;
+        
+        int nos = remain/weight[0];
+        
+        return nos*profit[0];
+    }  
+    
+    if(memo[i][remain] != -1)
+        return memo[i][remain];
+    
+    int nottake = 0 + func(i-1, remain, profit, weight);
+    if(nottake == -1)
+        nottake = 0;
+    
+    int take = 0;
+    int residue = remain - weight[i];
+    if(residue >= 0){
+        int next = func(i, residue, profit, weight);
+        if(next != -1)
+            take = profit[i] + next; 
+    }
+    
+    return memo[i][remain] = max(nottake, take);
+}
+
+int unboundedKnapsack(int n, int w, vector<int> &profit, vector<int> &weight)
+{
+    // Write Your Code Here.
+    memo = vector<vector<int>>(n+1, vector<int>(w+1, -1));
+ 
+    int res = func(n-1, w, profit, weight);
+
+    return res;
+}
+
+
+
+
+
+// Space optimization
+
+
+int unboundedKnapsack(int n, int w, vector<int> &profit, vector<int> &weight)
+{
+    // Write Your Code Here.
+    vector<vector<int>>dp(n+1, vector<int>(w+1, 0));
+    vector<int>prev(w+1, 0);
+    
+    for(int j=0; j<=w; j++){
+        int nos = j/weight[0];
+        prev[j] = nos*profit[0];
+    }
+    
+    for(int i=1; i<n; i++){
+        for(int j=0; j<=w; j++){
+            int nottake = 0 + prev[j];
+            int take = 0;
+            int residue = j - weight[i];
+            if(residue >= 0)
+                take = profit[i] + prev[residue];
+            
+            prev[j] = max(nottake, take);
+        }
+    }
+   
+    return prev[w];
+}

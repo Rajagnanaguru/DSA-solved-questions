@@ -1,0 +1,30 @@
+class Solution {
+public:
+    // Solution using comparator
+    static bool comp(pair<int,int>a, pair<int,int>b){
+        if(a.second == b.second && a.first < b.first)
+            return true;
+        return a.second < b.second;
+    }
+    vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
+        vector<pair<int,int>>hash;
+        vector<int>res;
+        
+        for(int i=0;i<mat.size();i++){
+            int t=0;
+            for(auto val: mat[i])
+                if(val == 1)
+                    t++;
+            
+            pair<int,int>tmp;
+            tmp.first = i;
+            tmp.second = t;
+            hash.push_back(tmp);
+        }
+        sort(hash.begin(),hash.end(),comp);
+        
+        for(int i=0;i<k;i++)
+            res.push_back(hash[i].first);
+        return res;
+    }
+};

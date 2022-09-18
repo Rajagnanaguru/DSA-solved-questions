@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        vector<int>tmp;
+        tmp.push_back(1);
+        
+        
+        
+        for(int i=0; i<rowIndex; i++){
+            vector<int>curr;
+            
+            tmp.insert(tmp.begin(), 0);
+            tmp.push_back(0);
+            
+            int n = tmp.size();
+            for(int j=0; j<n-1; j++)
+                curr.push_back(tmp[j]+tmp[j+1]);
+            tmp = curr;
+        }
+        
+        return tmp;
+    }
+};

@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool backspaceCompare(string s, string t) {
+        string s1;
+        string s2;
+        int n1 = s.length();
+        int n2 = t.length();
+        
+        for(auto c: s){
+            if(c == '#'){
+                if(s1.empty())
+                    ;
+                else
+                    s1.pop_back();
+            }else
+                s1.push_back(c);
+            
+        }
+        
+        for(auto c: t){
+            if(c == '#'){
+                if(s2.empty())
+                    ;
+                else
+                    s2.pop_back();
+            }else
+                s2.push_back(c);
+        }
+        
+        return !s1.compare(s2);
+    }
+};

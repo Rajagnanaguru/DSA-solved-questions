@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<string> uncommonFromSentences(string s1, string s2) {
+        vector<string>res;
+        
+        map<string, int>freq1;
+        map<string, int>freq2;
+        set<string>all;
+        
+        string tmp;
+        for(auto c: s1){
+            if(c == ' '){
+                freq1[tmp]++;
+                all.insert(tmp);
+                tmp = "";
+            }else
+                tmp.push_back(c);
+        }
+        freq1[tmp]++;
+        all.insert(tmp);
+        
+        tmp = "";
+        for(auto c: s2){
+            if(c == ' '){
+                freq2[tmp]++;
+                all.insert(tmp);
+                tmp = "";
+            }else
+                tmp.push_back(c);
+        }
+        freq2[tmp]++;
+        all.insert(tmp);
+        
+        
+        for(auto val: all){
+            if(freq1[val] == 0 && freq2[val] == 1)
+                res.push_back(val);
+            
+            if(freq1[val] == 1 && freq2[val] == 0)
+                res.push_back(val);
+        }
+        
+        return res;
+    }
+};

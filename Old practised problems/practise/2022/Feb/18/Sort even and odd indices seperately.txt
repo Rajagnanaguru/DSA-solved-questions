@@ -1,0 +1,48 @@
+class Solution {
+public:
+    void swap(int *p, int *q){
+        int val = *p;
+        *p = *q;
+        *q = val;
+    }
+    
+    vector<int> sortEvenOdd(vector<int>& nums) {
+        int n = nums.size();
+        //cout << n <<"\n";
+        int even;
+        
+        for(int i=1, even=2; even < n && i<n;even += 2, i++){
+            swap(&nums[even], &nums[i]);
+        }
+        
+        if(n%2 == 1){
+            sort(nums.begin(), nums.begin()+n/2+1);
+            sort(nums.begin()+n/2+1, nums.end(), greater<int>());
+        }else{
+            sort(nums.begin(), nums.begin()+n/2);
+            sort(nums.begin()+n/2, nums.end(), greater<int>());
+        }
+        int ptr1 = 1;
+        int ptr2 = nums[n/2];
+        
+        int inspos = 1;
+        
+        int i;
+        if(n%2 == 1)
+            i=n/2+1;
+        else
+            i=n/2;
+        
+        for(; i<n && inspos!=i; i++, inspos+=2){
+            int val = nums[i];
+            nums.erase(nums.begin()+i);
+            nums.insert(nums.begin()+inspos, val);
+        }
+        
+        // for(auto val: nums)
+        //     cout << val << " ";
+        // cout << "\n";
+        
+        return nums;
+    }
+};

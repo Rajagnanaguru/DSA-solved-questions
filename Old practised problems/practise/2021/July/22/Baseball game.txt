@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int calPoints(vector<string>& ops) {
+        int res=0;
+        stack<int> stack;
+        
+        for(string s:ops){
+            if(!s.compare("C"))
+                stack.pop();
+            else if(!s.compare("D"))
+                stack.push(2*stack.top());
+            else if(!s.compare("+")){
+                int x = stack.top();
+                stack.pop();
+                int y = stack.top();
+                stack.push(x);
+                stack.push(x+y);
+            }else{
+                int x;
+                stringstream st(s);
+                st >> x;
+                stack.push(x);
+            }
+        }
+        
+        while(!stack.empty()){
+            res+=stack.top();
+            stack.pop();
+        }
+        
+        return res;
+    }
+};

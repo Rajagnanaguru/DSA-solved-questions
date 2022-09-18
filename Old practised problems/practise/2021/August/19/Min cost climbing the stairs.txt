@@ -1,0 +1,46 @@
+class Solution {
+public:
+    set<int>fset;
+    map<int, int>memo;
+    int dp(vector<int>arr, int ind){
+        
+        if(fset.count(ind) > 0)
+            return memo[ind];
+        
+        int n = arr.size();
+        
+        if(ind == n-1 || ind == n-2){
+            fset.insert(ind);
+            memo[ind] = arr[ind];
+            return arr[ind];
+        }
+        
+        if(ind+2 < n){
+            fset.insert(ind);
+            
+            int t = arr[ind]+min(dp(arr,ind+1),dp(arr,ind+2));
+            memo[ind] = t;
+            return t;
+        }
+        if(ind+1 < n){
+            fset.insert(ind);
+            int t = arr[ind]+dp(arr, ind+1);
+            return t;
+        }
+        
+        fset.insert(ind);
+        int t = arr[ind]+min(dp(arr,ind+1),dp(arr,ind+2)); 
+        memo[ind] = t;
+        return t;
+    }
+    int minCostClimbingStairs(vector<int>& cost) {
+        
+        int res=0;
+        
+        int n = cost.size();
+        
+        res = min(dp(cost,0), dp(cost,1));
+        
+        return res;
+    }
+};

@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> numberOfLines(vector<int>& widths, string s) {
+        int rows=1;
+        int curr=0;
+        int ttill=0;
+        for(char c: s){
+            curr += widths[c-'a'];
+            //cout<<"Curr: "<<curr<<"\n";
+            if(curr > 100){
+                rows++;
+                curr = widths[c-'a'];
+            }
+        }
+       return {rows,curr}; 
+    }
+};

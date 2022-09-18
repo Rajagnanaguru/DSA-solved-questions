@@ -1,0 +1,12 @@
+class Solution {
+public:
+    bool squareIsWhite(string coordinates) {
+        int col = coordinates[0] - 'a' + 1;
+        int row = coordinates[1] - '0';
+        
+        if(col%2 == row%2)
+            return false;
+        
+        return true;
+    }
+};

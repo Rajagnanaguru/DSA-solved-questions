@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int comlen(string a, string b){
+        int res = 0;
+        int n1 = a.length();
+        int n2 = b.length();
+        
+        for(int i=0; i<n1; i++){
+            if(i > n2-1)
+                break;
+            
+            if(a[i] != b[i])
+                break;
+            
+            res++;
+        }
+        return res;
+    }
+    
+    string longestCommonPrefix(vector<string>& strs) {
+        int res = 0;
+        int n = strs.size();
+        string ret;
+        
+        int prev = 200, val;
+        for(int i=0; i<n-1; i++){
+            val = comlen(strs[i], strs[i+1]);
+            prev = min(prev, val);
+            
+            if(prev == 0)
+                break;
+        }
+        
+        if(n > 0)
+            ret = strs[0].substr(0, prev);
+        else
+            ret = "";
+        
+        return ret;
+    }
+};

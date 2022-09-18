@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        
+        // Iterative method
+        vector<vector<int>>res;
+        vector<int>t;
+        res.push_back(t);
+        int n = nums.size();
+        for(int i=0;i<n;i++){
+            vector<vector<int>>tmp;
+            for(vector<int> v:res){
+                v.push_back(nums[i]);
+                tmp.push_back(v);
+            }
+            for(vector<int> v:tmp)
+                res.push_back(v);
+        }
+        
+        return res;
+        
+        
+    }
+};

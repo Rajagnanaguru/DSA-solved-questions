@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int timeRequiredToBuy(vector<int>& tickets, int k) {
+        int res = 0;
+        int n = tickets.size();
+        
+        for(int i=0; i<n; ){
+            if(i == k && tickets[i] == 1){
+                res++;
+                return res;
+            }
+    
+            if(tickets[i] > 0){
+                tickets[i]--;
+                res++;
+            }
+            
+            i++;
+            if(i == n)
+                i = 0;
+        }
+        
+        return res;
+    }
+};

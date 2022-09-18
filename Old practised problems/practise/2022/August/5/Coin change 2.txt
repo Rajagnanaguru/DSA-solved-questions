@@ -1,0 +1,70 @@
+class Solution {
+public:
+    vector<vector<int>>memo;
+    
+    int func(int i, int amount, vector<int>&coins){
+        if(i == 0){
+            if(amount%coins[i] == 0)
+                return 1;
+            return 0;
+        }
+        
+        if(memo[i][amount] != -1)
+            return memo[i][amount];
+        
+        int nottake = func(i-1, amount, coins);
+        int take = 0;
+        
+        int residue = amount - coins[i];
+        if(residue >= 0)
+            take = func(i, residue, coins);
+        
+        return memo[i][amount] = nottake + take;
+    }
+    
+    int change(int amount, vector<int>& coins) {
+        int n = coins.size();
+        
+        memo = vector<vector<int>>(n+1, vector<int>(amount+1, -1));
+        int res = func(n-1, amount, coins);
+        
+        return res;
+    }
+};
+
+
+
+
+// Space optimization
+
+class Solution {
+public:
+    vector<vector<int>>memo;
+    
+    int change(int amount, vector<int>& coins) {
+        int n = coins.size();
+        
+        vector<int>prev(amount+1, 0);
+           
+        for(int j=0; j<=amount; j++){
+            if(j%coins[0] == 0)
+                prev[j] = 1;
+        }
+        
+        for(int i=1; i<n; i++){
+            for(int j = amount; j>=0; j--){
+                int nottake = prev[j];
+                int take = 0;
+
+                int residue = j - coins[i];
+                if(residue >= 0)
+                    take = curr[residue];
+
+                curr[j] = nottake + take;
+            }   
+            prev = curr;
+        }
+        
+        return prev[amount];
+    }
+};

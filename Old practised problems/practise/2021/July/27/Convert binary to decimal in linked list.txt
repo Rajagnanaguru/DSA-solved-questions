@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int getDecimalValue(ListNode* head) {
+        ListNode* tmp = head;
+        int res=0;
+        int size=0;
+        while(tmp != NULL){
+            size++;
+            tmp= tmp->next;
+        }
+        cout<<size;
+        
+        int mul = 1;
+        while(size --)
+            mul *=2;
+        
+        mul /=2;
+        
+        tmp = head;
+        while(tmp != NULL){
+            res = res+ mul*(tmp->val);
+            mul/=2;
+            
+            tmp = tmp->next;
+        }
+        return res;
+    }
+};

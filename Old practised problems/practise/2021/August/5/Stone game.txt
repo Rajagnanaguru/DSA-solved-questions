@@ -1,0 +1,36 @@
+class Solution {
+public:
+    bool stoneGame(vector<int>& piles) {
+        int alex=0;
+        int lee=0;
+        int l = 0;
+        int r = piles.size()-1;
+        
+        while(l<r){
+            if(piles[l] >= piles[r]){
+                alex += piles[l++];
+                
+                
+                if(piles[l] >= piles[r])
+                    lee += piles[l++];
+                else
+                    lee += piles[r--];
+            }else{
+                alex +=piles[r--];
+                
+                if(piles[l] >= piles[r])
+                    lee += piles[l++];
+                else
+                    lee += piles[r--];
+            }
+        }
+        
+        if(piles.size() == 2){
+            if(piles[l] == piles[r]){
+                return true;
+            }else
+                return false;
+        }else
+            return true;
+    }
+};

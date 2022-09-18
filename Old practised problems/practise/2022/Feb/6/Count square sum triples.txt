@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool isSq(int a){
+        int val = sqrt(a);
+        if(val*val == a)
+            return true;
+        return false;
+    }
+    
+    int countTriples(int n) {
+        int res = 0;
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=n; j++){
+                int val = i*i + j*j;
+                if(isSq(val)){
+                    int sval = sqrt(val);
+                    if(sval <= n)
+                        res++;
+                }
+            }
+        }
+        
+        return res;
+    }
+};

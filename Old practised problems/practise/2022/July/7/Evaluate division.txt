@@ -1,0 +1,80 @@
+class Solution {
+public:
+    void dfs(map<string, vector<string>>&connections, map<vector<string>, double>&weights, set<string>visited, string curr, string dest, int &found, double &mulval){
+        vector<string>toTraverse = connections[curr];
+        
+        int nt = toTraverse.size();
+        visited.insert(curr);
+        
+        if(curr == dest){
+            found = 1;
+            return;
+        }
+        
+        for(int i=0; i<nt; i++){
+            string currNode = toTraverse[i];
+            if(visited.count(currNode) == 0){
+                double tomul = weights[{curr, currNode}]; 
+                mulval *= tomul;
+                dfs(connections, weights, visited, currNode, dest, found, mulval);
+                if(found == 1)
+                    return;
+                else
+                    mulval /= tomul;
+            }
+        }
+    }
+    
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        map<string, vector<string>>connections;
+        map<vector<string>, double>weights;
+        vector<double>res;
+        set<string>found;
+        double mulval = 1.00000;
+        
+        int ne = equations.size();
+        for(int i=0; i<ne; i++){
+            string firstnode = equations[i][0];
+            string secondnode = equations[i][1];
+        
+            connections[firstnode].push_back(secondnode);
+            connections[secondnode].push_back(firstnode);
+            found.insert(firstnode);
+            found.insert(secondnode);
+            
+            vector<string>t {firstnode, secondnode};
+            weights[t] = values[i];
+            
+            reverse(t.begin(), t.end());
+            weights[t] = ((double)1)/values[i];
+        }
+    
+        int nq = queries.size();
+        for(int i=0; i<nq; i++){
+            vector<string>tmp = queries[i];
+            string node1 = tmp[0];
+            string node2 = tmp[1];
+            
+            if(found.count(node1) && found.count(node2)){
+                if(node1 == node2){
+                    res.push_back(1.00000);
+                    continue;
+                }
+                
+                set<string>visited;
+                mulval = 1;
+                int conn_there = 0;
+                
+                dfs(connections, weights, visited, node1, node2, conn_there, mulval);
+                if(conn_there == 1)
+                    res.push_back(mulval);
+                else
+                    res.push_back(-1.00000);
+            }else
+                res.push_back(-1.00000);
+        }
+        
+        
+        return res;
+    }
+};

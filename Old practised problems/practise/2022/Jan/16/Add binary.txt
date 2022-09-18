@@ -1,0 +1,49 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int n1 = a.length();
+        int n2 = b.length();
+        
+        int diff;
+        if(n2 > n1){
+            diff = n2-n1;
+            while(diff--){
+                a.insert(0, "0");
+            }
+        }else if(n2 < n1){
+            diff = n1-n2;
+            while(diff--){
+                b.insert(0, "0");
+            }
+        }
+        
+        int n = a.length();
+        
+        int carry=0, sum=0;
+        
+        string res = "";
+        for(int i=n-1; i>=0; i--){
+            int fir = (a[i] == '0')?0:1;
+            int sec = (b[i] == '0')?0:1;
+            
+            sum = fir+sec+carry;
+            carry = 0;
+            if(sum == 2){
+                carry = 1;
+                sum = 0;
+            }else if(sum == 3){
+                carry = 1;
+                sum = 1;
+            }
+            
+            if(sum == 0)
+                res.insert(0, "0");
+            else
+                res.insert(0, "1");
+        }
+        if(carry == 1)
+            res.insert(0, "1");
+        
+        return res;
+    }
+};

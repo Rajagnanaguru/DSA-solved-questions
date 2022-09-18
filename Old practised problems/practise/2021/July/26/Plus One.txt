@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int carry=1;
+        reverse(digits.begin(), digits.end());
+        digits.push_back(0);
+        for(int i=0;i<digits.size();i++){
+            int val = carry + digits[i];
+            if(val>9){
+                carry = 1;
+                digits[i]=val%10;
+            }else{
+                digits[i] = val;
+                break;
+            }
+        }
+        
+        reverse(digits.begin(), digits.end());
+        if(digits[0] == 0)
+            digits.erase(digits.begin());
+        
+        return digits;
+    }
+};

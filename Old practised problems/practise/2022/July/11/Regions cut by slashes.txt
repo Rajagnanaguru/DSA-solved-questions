@@ -1,0 +1,79 @@
+class Solution {
+public:
+    int find(int curr, vector<int>&parent){
+        int par = parent[curr];
+        
+        while(par != parent[par])
+            par = parent[par];
+        
+        return par;
+    }
+    
+    void unioning(int node1, int node2, vector<int>&parent, vector<int>&rank){
+        int parent1 = find(node1, parent);
+        int parent2 = find(node2, parent);
+        
+        if(parent1 == parent2)
+            return;
+        
+        if(rank[parent1] >= rank[parent2]){
+            rank[parent1] += rank[parent2];
+            parent[parent2] = parent1;
+        }else{
+            rank[parent2] += rank[parent1];
+            parent[parent1] = parent2;
+        }
+    }
+    
+    int baseaddr(int i, int j, int n){
+        return  4*i*n + 4*j;   
+    }
+    
+    int regionsBySlashes(vector<string>& grid) {
+        int n = grid.size();
+        vector<int>arr(4*n*n, -1);
+        int narr = arr.size();
+        int res = 0;
+        
+        vector<int>parent(narr, -1);
+        vector<int>rank(narr, 1);
+        
+        for(int i=0; i<narr; i++)
+            parent[i] = i;    
+        
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                int base = baseaddr(i, j, n);
+                
+                if(grid[i][j] == ' '){
+                    unioning(base, base+1, parent, rank);
+                    unioning(base, base+2, parent, rank);
+                    unioning(base, base+3, parent, rank);
+                }else if(grid[i][j] == '/'){
+                    unioning(base, base+2, parent, rank);
+                    unioning(base+1, base+3, parent, rank);
+                }else{
+                    unioning(base, base+1, parent, rank);
+                    unioning(base+2, base+3, parent, rank);
+                }
+                
+                if(i >= 1){
+                    int upbase = baseaddr(i-1, j, n);
+                    unioning(base, upbase+3, parent, rank);
+                }
+                    
+                if(j >= 1){
+                    int leftbase = baseaddr(i, j-1, n);
+                    unioning(base+2, leftbase+1, parent, rank);
+                }       
+     
+            }
+        }
+        
+        for(int i=0; i<narr; i++)
+            if(parent[i] == i)
+                res++;
+        
+        return res;
+    }
+};

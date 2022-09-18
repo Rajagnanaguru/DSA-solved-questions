@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int res=0;
+        for(vector<int> v:grid){
+            vector<int>::iterator itr = v.end()-1;
+            while(itr>=v.begin()){
+                if(*itr >= 0)
+                    break;
+                else
+                    res++;
+                
+                itr--;
+            }
+        }
+        return res;
+    }
+};

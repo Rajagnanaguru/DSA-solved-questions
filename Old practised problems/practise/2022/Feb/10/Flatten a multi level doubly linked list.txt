@@ -1,0 +1,148 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* prev;
+    Node* next;
+    Node* child;
+};
+*/
+
+class Solution {
+public:
+    Node* flatit(Node* head){
+        Node* chi = head->child;
+        Node* append = head->next;
+        
+        head->next = chi;
+        head->child = NULL;
+        
+        chi->prev = head;
+        
+        Node* tmp = head;
+        Node* bef = head;
+        while(tmp){
+            if(tmp->child != NULL){
+               // cout << "Got into :" << tmp->val << "\n";
+                Node* got = flatit(tmp);
+                bef->next = got;
+                got->prev = bef;
+                
+                break;
+            }
+            //cout <<"\ninfunc: "<<tmp->val << " ";
+            bef = tmp;
+            tmp = tmp->next;
+        }
+        
+        while(bef && bef->next)
+            bef = bef->next;
+        
+        if(bef)
+            bef->next = append;
+        if(append)
+            append->prev = bef;
+        
+        //cout << "Counting from head: "<< head->val << "\n";
+        tmp = head;
+        while(tmp){
+            //cout << tmp->val << " ";
+            tmp = tmp->next;
+        }
+        
+       // cout <<"  Done\n";
+        return head;
+    }
+    
+    Node* flatten(Node* head) {
+        Node *bef = NULL, *aft = NULL, *chi = NULL;
+        Node *tmp = head;
+        
+        bef = NULL;
+        while(tmp){
+            if(tmp->child != NULL){
+                Node* got = flatit(tmp);
+                
+                Node* t = got;
+                while(t){
+                    //cout << "In got: "<< t->val<<" ";
+                    t = t->next;
+                }
+                
+                if(bef){
+                    bef->next = got;
+                    got->prev = bef;
+                }
+                
+                break;
+            }
+            
+            bef = tmp;
+            tmp = tmp->next;
+        }
+        
+        tmp = head;
+        
+        while(tmp){
+            cout << tmp->val << " ";
+            // if(tmp->child)
+            //     cout << "Child\n";
+            tmp = tmp->next;
+        }
+        
+        return head;
+    }
+};
+
+
+
+
+
+// Simple solution
+
+
+
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* prev;
+    Node* next;
+    Node* child;
+};
+*/
+
+class Solution {
+public:
+
+    Node* flatten(Node* head) {
+        Node *prev = NULL;
+        Node *tmp = head;
+        
+        while(tmp){
+            if(tmp->child != NULL){
+                Node* after = tmp->next;
+                tmp->next = tmp->child;
+                tmp->next->prev = tmp;
+
+                tmp->child = NULL;
+
+                Node* t = tmp;
+                while(t && t->next)
+                    t = t->next;
+
+                if(t)
+                    t->next = after;
+                if(after)
+                    after->prev = t;
+            }
+            
+            prev = tmp;
+            tmp = tmp->next;
+        }
+        
+        return head;
+    }
+};

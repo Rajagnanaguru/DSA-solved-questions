@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int numSpecialEquivGroups(vector<string>& words) {
+        
+        set<pair<string,string>>pairs;
+        int n=words[0].size();
+        
+        for(auto s:words){
+            pair<string,string>p;
+            for(int i=0;i<n;i++){
+                if(i%2 == 0)
+                    p.first+= s[i];
+                else
+                    p.second+= s[i];
+            }
+            sort(p.first.begin(), p.first.end());
+            sort(p.second.begin(), p.second.end());
+            
+            pairs.insert(p);
+        }
+        
+        return pairs.size();
+        /*
+        set<pair<vector<char>,vector<char>>>pairs;
+        int n = words[0].length();
+        
+        for(string s: words){
+            vector<char>even, odd;
+            for(int i=0;i<n;i++){
+                if(i%2 == 0)
+                    even.push_back(s[i]);
+                else
+                    odd.push_back(s[i]);
+            }
+            sort(even.begin(), even.end());
+            sort(odd.begin(), odd.end());
+            pair<vector<char>,vector<char>> tmp{even, odd};
+            pairs.insert(tmp);
+        }
+        return pairs.size();
+        */
+    }
+};

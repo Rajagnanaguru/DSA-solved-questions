@@ -1,0 +1,86 @@
+class Solution {
+public:
+    int rotten = 0;
+    int time = 0;
+    int m, n;
+    int totalOranges = 0;
+    
+    bool isTravelable(vector<vector<int>>& grid, int x, int y){
+        int gridval = grid[x][y];
+        if(gridval != 2 && gridval != 0)
+            return true;
+        return false;
+    }
+    
+    void bfs(vector<vector<int>>& grid, vector<vector<int>>toTraverse){
+        vector<vector<int>>newTraverse;
+        
+        for(auto &orange: toTraverse){
+            int x = orange[0];
+            int y = orange[1];
+            
+            if(x > 0)
+                if(isTravelable(grid, x-1, y)){
+                    newTraverse.push_back(vector<int>{x-1, y});
+                    rotten++;
+                    grid[x-1][y] = 2;
+                }
+            
+            if(y > 0)
+                if(isTravelable(grid, x, y-1)){
+                    newTraverse.push_back(vector<int>{x, y-1});
+                    rotten++;
+                    grid[x][y-1] = 2;
+                }
+            
+            if(x < m-1)
+                if(isTravelable(grid, x+1, y)){
+                    newTraverse.push_back(vector<int>{x+1, y});
+                    rotten++;
+                    grid[x+1][y] = 2;
+                }
+            
+            if(y < n-1)
+                if(isTravelable(grid, x, y+1)){
+                    newTraverse.push_back(vector<int>{x, y+1});
+                    rotten++;
+                    grid[x][y+1] = 2;
+                }
+        }
+        
+        
+        
+        if(newTraverse.size() == 0)
+            return;
+        
+        time++;
+        bfs(grid, newTraverse);
+    }
+    
+    int orangesRotting(vector<vector<int>>& grid) {
+        m = grid.size();
+        n = grid[0].size();
+        
+        for(int i=0; i<m; i++)
+            for(int j=0; j<n; j++)
+                if(grid[i][j] != 0)
+                    totalOranges++;
+        
+        vector<vector<int>>toTraverse;
+        for(int i=0; i<m; i++)
+            for(int j=0; j<n; j++){
+                if(grid[i][j] == 2){
+                    rotten++;
+                    
+                    vector<int>tmp = {i, j};
+                    toTraverse.push_back(tmp);
+                }
+            }
+        bfs(grid, toTraverse);
+        
+        if(rotten < totalOranges)
+            return -1;
+        
+        return time;
+    }
+};

@@ -1,0 +1,36 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    int pairSum(ListNode* head) {
+        vector<int>all;
+        int res = -1;
+        
+        ListNode* tmp = head;
+        
+        int n = 0;
+        int i = 0;
+        
+        while(tmp != NULL){
+            all.push_back(tmp->val);
+            tmp = tmp->next;
+            n++;
+        }
+        
+        for(i=0; i<n/2; i++){
+            int val = all[i]+all[n-1-i];
+            if(res < val)
+                res = val;
+        }
+        
+        return res;
+    }
+};

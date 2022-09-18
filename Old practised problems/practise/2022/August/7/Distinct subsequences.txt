@@ -1,0 +1,128 @@
+class Solution {
+public:
+    vector<vector<int>>memo;
+    
+    int func(int ind1, int ind2, string &s, string &t){
+        if(ind2 < 0)
+            return 1;
+        
+        if(ind1 < 0)
+            return 0;
+        
+        
+        if(memo[ind1][ind2] != -1)
+            return memo[ind1][ind2];
+        
+        int nottake = func(ind1-1, ind2, s, t);
+        
+        int take = 0;
+        if(s[ind1] == t[ind2])
+            take = func(ind1-1, ind2-1, s, t);
+        
+        return memo[ind1][ind2] = nottake + take;
+    }
+    
+    int numDistinct(string s, string t) {
+        int n1 = s.length();
+        int n2 = t.length();
+        
+        memo = vector<vector<int>>(n1+1, vector<int>(n2+1, -1));
+        
+        return func(n1-1, n2-1, s, t);
+    }
+};
+
+
+
+// Tabulation
+
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int n1 = s.length();
+        int n2 = t.length();
+        
+        vector<vector<long>>dp(n1+1, vector<long>(n2+1, 0));
+        
+        vector<long>curr(n2+1, 0);
+        vector<long>prev(n2+1, 0);
+        
+        for(int i=0; i<=n1; i++)
+            dp[i][0] = 1;
+        
+        for(int i=1; i<=n1; i++){
+            for(int j=1; j<=n2; j++){
+                int nottake = dp[i-1][j];
+        
+                int take = 0;
+                if(s[i-1] == t[j-1])
+                    take = dp[i-1][j-1];
+
+                dp[i][j] = (long)nottake + (long)take;
+            }
+        }
+        
+        return dp[n1][n2];
+    }
+};
+
+
+
+// Space optimization
+
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int n1 = s.length();
+        int n2 = t.length();
+    
+        vector<long>curr(n2+1, 0);
+        vector<long>prev(n2+1, 0);
+        
+        prev[0] = 1;
+        curr[0] = 1;
+        
+        for(int i=1; i<=n1; i++){
+            for(int j=1; j<=n2; j++){
+                int nottake = prev[j];
+        
+                int take = 0;
+                if(s[i-1] == t[j-1])
+                    take = prev[j-1];
+
+                curr[j] = (long)nottake + (long)take;
+            }
+            prev = curr;
+        }
+        
+        return prev[n2];
+    }
+};
+
+
+
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int n1 = s.length();
+        int n2 = t.length();
+    
+        vector<long>prev(n2+1, 0);
+        
+        prev[0] = 1;
+        
+        for(int i=1; i<=n1; i++){
+            for(int j=n2; j>=1; j--){
+                int nottake = prev[j];
+        
+                int take = 0;
+                if(s[i-1] == t[j-1])
+                    take = prev[j-1];
+
+                prev[j] = (long)nottake + (long)take;
+            }
+        }
+        
+        return prev[n2];
+    }
+};

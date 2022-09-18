@@ -1,0 +1,58 @@
+class Solution {
+public:
+    vector<int>res;
+    vector<int>qt;
+    set<int>visited;
+    
+    int dfs(int curr, vector<vector<int>>&conn){
+        int nconn = conn[curr].size();
+        int tmp = qt[curr];
+        int reqnode = curr;
+        
+        if(nconn == 0){
+            res[curr] = curr;
+            visited.insert(curr);
+            return curr;
+        }else{  
+            for(auto &val: conn[curr]){
+                int currval;
+                
+                if(visited.count(val) > 0)
+                    currval = res[val];
+                else 
+                    currval = dfs(val, conn);
+                
+                if(tmp > qt[currval]){
+                    tmp = qt[currval];
+                    reqnode = currval;
+                }
+            }
+        }
+        
+        visited.insert(curr);
+        res[curr] = reqnode;
+        return reqnode;
+    }
+    
+    vector<int> loudAndRich(vector<vector<int>>& richer, vector<int>& quiet) {
+        int n = quiet.size();
+        qt = quiet;
+        
+        vector<int>t(n, 0);
+        res = t;
+        
+        vector<vector<int>>conn(n);
+        
+        int nr = richer.size();
+        for(int i=0; i<nr; i++)
+            conn[richer[i][1]].push_back(richer[i][0]);    
+
+        for(int i=0; i<n; i++){
+            if(visited.count(i) > 0)
+                continue;
+            res[i] = dfs(i, conn);
+        }
+        
+        return res;
+    }
+};

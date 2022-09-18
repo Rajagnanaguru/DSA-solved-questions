@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int scoreOfParentheses(string s) {
+        stack<int>stack;
+        int res = 0;
+        
+        for(char c: s){
+            int v = (c == '(')?-2:-1;
+            
+            if(v == -1){
+                int t = 0;
+                while(stack.top() > 0){
+                    t += stack.top();
+                    stack.pop();
+                }
+                stack.pop(); //Popping the opening parenthesis
+                
+                if(t == 0)
+                    stack.push(1);
+                else
+                    stack.push(t*2);
+            }else{
+                stack.push(v);
+            }
+        }
+        
+        while(!stack.empty()){
+            res += stack.top();
+            stack.pop();
+        }
+        
+        return res;
+    }
+};

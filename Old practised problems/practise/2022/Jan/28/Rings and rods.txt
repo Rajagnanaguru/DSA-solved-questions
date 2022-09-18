@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int countPoints(string rings) {
+        int res = 0;
+        set<int>red;
+        set<int>green;
+        set<int>blue;
+        
+        int n = rings.length();
+        
+        for(int i=0; i<n; i=i+2){
+            if(rings[i] == 'R')
+                red.insert(rings[i+1]-'0');
+            else if(rings[i] == 'G')
+                green.insert(rings[i+1] - '0');
+            else if(rings[i] == 'B')
+                blue.insert(rings[i+1] - '0');
+        }
+        
+        vector<int>all(10, 0);
+        
+        for(auto val: red)
+            all[val]++;
+        for(auto val: blue)
+            all[val]++;
+        for(auto val: green)
+            all[val]++;
+        
+        for(auto val: all)
+            if(val == 3)
+                res++;
+        
+        return res;
+    }
+};

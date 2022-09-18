@@ -1,0 +1,21 @@
+class Solution {
+public:
+    string truncateSentence(string s, int k) {
+        // Time complexity - O(n)
+        string res;
+        int len=0;
+        int gap=0;
+        for(char c:s){
+            
+            if(c==' ')
+                gap++;
+            if(gap == k)
+                break;
+            len++;
+        }
+        
+        res = s.substr(0,len);
+        
+        return res;
+    }
+};

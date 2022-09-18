@@ -1,0 +1,33 @@
+class Solution {
+public:
+    static bool comp(pair<string, int>a, pair<string, int>b){
+        return a.second < b.second;
+    }
+    string sortSentence(string s) {
+        vector<pair<string, int>>res;
+        string ans;
+        string t;
+        for(auto val: s){
+            if(val == ' '){
+                t.clear();
+            }else if(val >= '1' && val <= '9'){
+                pair<string,int>tmp;
+                tmp.first = t;
+                tmp.second = val - '0';
+                res.push_back(tmp);
+            }else
+                t.push_back(val);
+        }
+        
+        sort(res.begin(), res.end(), comp);
+        
+        for(auto p: res){
+            ans+= p.first;
+            ans+=' ';
+        }
+        
+        ans.erase(ans.end()-1);
+        
+        return ans;
+    }
+};

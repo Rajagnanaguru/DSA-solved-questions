@@ -1,0 +1,42 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* res;
+    TreeNode* tmp;
+    void inOrder(TreeNode* root){
+        if(root == NULL){
+            cout<<"NULL ";
+            return;
+        }
+        
+        inOrder(root->left);
+        
+        TreeNode* t = new TreeNode(root->val);
+        //cout <<root->val<<" ";
+        
+        t->left = NULL;
+        t->right = NULL;
+        
+        tmp->right = t;
+        tmp = t;
+    
+        inOrder(root->right);
+    }
+    
+    TreeNode* increasingBST(TreeNode* root) {
+        tmp = new TreeNode(0);
+        res = tmp;
+        inOrder(root);
+        return res->right;
+    }
+};

@@ -1,0 +1,83 @@
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int lpssize = -1;
+        string lps;
+        
+        string smade;
+        for(char c: s){
+            smade.push_back('|');
+            smade.push_back(c);
+        }
+        smade.push_back('|');
+        
+        int ncenters=smade.length();
+        
+        int maxlen = 0;
+        int lenarr[10000];
+        
+        for(int ptr=0; ptr<ncenters; ptr++){
+            int currl = 0;
+            int gap = 1;
+            if(smade[ptr] != '|'){
+                currl = 1;
+                gap = 0;
+            }
+            
+            int l = ptr;
+            int r = ptr;
+            
+            while(true){
+                if(gap == 1){
+                    l -= 1;
+                    r += 1;
+                    gap = 0;
+                }else{
+                    l -= 2;
+                    r += 2;
+                }
+                
+                if(l < 0 || r > ncenters-1)
+                    break;
+                
+                if(smade[l] != smade[r])
+                    break;
+                currl += 2;
+            }
+            
+            lenarr[ptr] = currl;
+        }
+        
+        // for(char c: smade)
+        //     cout<<c<<" ";
+        // cout<<"\n";
+        
+        int start = -1;
+        int center = -1;
+        
+        // for(int i=0; i<ncenters; i++)
+        //     cout<<lenarr[i]<<" ";
+        
+        for(int i=0; i<ncenters; i++){
+            if(lenarr[i] > lpssize){
+                lpssize = lenarr[i];
+                center = i;
+                //cout<<"lenarr[i]: "<<lenarr[i]<<"lpssize: "<<lpssize<<"Center:"<<center<<"\n";
+            } 
+            
+        }
+        
+        //cout<<"Center: "<<center<<"\n";
+        
+        if(smade[center] == '|'){
+            center = (center-1)/2;
+            start = center - (lpssize/2)+1;
+        }else{
+            center = (center-1)/2;
+            start = center - (lpssize/2);
+        }
+        //cout<<"Lpssize: "<<lpssize<<"\n"<<"Start: "<<start<<"\n"<<"Center: "<<center<<"\n";
+        lps = s.substr(start, lpssize);
+        return lps;
+    }
+};

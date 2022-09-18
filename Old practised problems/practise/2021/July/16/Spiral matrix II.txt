@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>>res(n,vector<int>(n,0));
+        
+        
+        int count =0;
+        int val=1;
+        int left = 0;
+        int right = n-1;
+        int top = 0;
+        int down = n-1;
+        while(count != n*n){
+            for(int i=left;i<=right;i++){
+                res[top][i]=val++;
+                if(++count == n*n)
+                    return res;
+            }
+            top++;
+            for(int j=top;j<=down;j++){
+                res[j][right]=val++;
+                if(++count == n*n)
+                    return res;
+            }
+            right--;
+            for(int i=right;i>=left;i--){
+                res[down][i]=val++;
+                if(++count == n*n)
+                    return res;
+            }
+            down--;
+            for(int j=down;j>=top;j--){
+                res[j][left]=val++;
+                if(++count == n*n)
+                    return res;
+            }
+            left++;
+        }
+        
+        return res;
+    }
+};

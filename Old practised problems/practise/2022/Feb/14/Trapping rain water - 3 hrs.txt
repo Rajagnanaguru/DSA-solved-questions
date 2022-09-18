@@ -1,0 +1,64 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int res = 0;
+        if(height.size() == 1)
+            return 0;
+    
+        stack<int>stack;
+        int curr;
+                
+        int n = height.size();
+        
+        curr = 0;
+        
+        while(true){
+            while(!stack.empty())
+                stack.pop();
+            
+            // cout << "\nProcess array: ";
+            // for(auto val: height)
+            //     cout << val << " ";
+            // cout <<"\n";
+            
+            curr = 0;
+            
+            for(int i=1; i<height.size(); i++){
+                if(height[i] >= height[curr]){
+                    while(!stack.empty()){
+                        int val = stack.top();
+                        res += height[curr]-val;
+                        stack.pop();
+                    } 
+                    curr = i;
+                }else{
+                    stack.push(height[i]);
+                }
+            }
+        
+            
+            if(!stack.empty()){
+                int tmp = height[curr];
+                //cout << "curr: "<<height[curr]<<" ";
+                //cout << tmp << " ";
+                //stack.pop();
+
+                height.clear();
+                while(!stack.empty()){
+                    int val = stack.top();
+                    cout << val << "h ";
+                    height.push_back(val);
+                    stack.pop();
+                }
+
+                height.push_back(tmp);
+                
+                curr = 0;
+            }else
+                break;
+            
+        }
+        
+        return res;
+    }
+};

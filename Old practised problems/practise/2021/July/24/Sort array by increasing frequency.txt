@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> frequencySort(vector<int>& nums) {
+        vector<int>res;
+        vector<pair<int,int>>pairs;
+        vector<int>freq(201,0);
+        
+        for(auto val: nums)
+            freq[100+val]++;
+        
+        
+        for(auto val: nums)
+            pairs.push_back({val,freq[val+100]});
+        
+        
+        sort(pairs.begin(), pairs.end(), [](pair<int,int>a,pair<int,int>b)->bool{
+            if(a.second == b.second)
+                return a.first > b.first;
+            return a.second < b.second;
+        });
+        
+        for(auto val: pairs)
+            res.push_back(val.first);
+        
+        return res;
+    }
+};

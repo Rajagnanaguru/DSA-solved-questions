@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        int n = nums.size();
+        vector<int>res;
+        
+        // Time complexity - O(n)
+        for(int i=0;i<nums.size();i++){
+            int x = abs(nums[i])-1;
+            int t = nums[x];
+            
+            if(t> 0)
+                nums[x]= -t;
+        }
+        
+        for(int i=0;i<nums.size();i++)
+            if(nums[i] > 0)
+                res.push_back(i+1);
+        
+        return res;
+    }
+};

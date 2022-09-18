@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int smallestRangeI(vector<int>& nums, int k) {
+        int min = 10001;
+        int max = -1;
+        
+        for(auto val: nums){
+            if(val > max)
+                max = val;
+            if(val < min)
+                min = val;
+        }
+        
+        max-=k;
+        min+=k;
+        
+        return (min>=max)?0:max-min;
+    }
+};

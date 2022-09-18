@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<int> luckyNumbers (vector<vector<int>>& matrix) {
+        vector<int>res;
+        int r = matrix.size();
+        int c = matrix[0].size();
+        
+        int i,j;
+        // Let m<=n => m+n <= 2n
+        //Time complexity = O(m*(m+n)) = O(m*2n) = O(2*mn) = O(m*n)
+        for(i=0;i<r;i++){   // m
+            int min = INT_MAX;
+            int minx,miny;
+            for(j=0;j<c;j++)    // n
+                if(matrix[i][j] < min){
+                    minx = i;
+                    miny = j;
+                    min = matrix[i][j];
+                }
+            
+            int max=INT_MIN;
+            int maxx,maxy;
+            for(int k=0;k<r;k++) //m
+                if(max < matrix[k][miny]){
+                    maxx= k;
+                    maxy= miny;
+                    max = matrix[k][miny];
+                }
+            
+            if(minx == maxx)
+                res.push_back(matrix[minx][miny]);
+        }
+        
+        
+        return res;
+    }
+};

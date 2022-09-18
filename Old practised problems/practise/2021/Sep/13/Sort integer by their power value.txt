@@ -1,0 +1,70 @@
+map<int,int>memo;
+set<int>founds;
+class Solution {
+public:
+    static bool cmp(int a, int b){
+        int x,y;
+        int prea=a, preb=b;
+        int res = 0;
+        
+        if(founds.count(a) > 0)
+            x = memo[a];
+        else{
+            while(true){
+                if(a == 1)
+                    break;
+
+                if(a%2 == 0){
+                    a = a/2;
+                    res++;
+                }else{
+                    a = a+(a+1)/2;
+                    res+=2;
+                }
+            }
+
+            founds.insert(prea);
+            memo[prea] = res;
+            x = res;
+        }
+        
+        // B part
+        res = 0;
+        if(founds.count(b) > 0)
+            y = memo[b];
+        else{
+            while(true){
+                if(b == 1)
+                    break;
+
+                if(b%2 == 0){
+                    b = b/2;
+                    res++;
+                }else{
+                    b = b+(b+1)/2;
+                    res+=2;
+                }
+            }
+
+            founds.insert(preb);
+            memo[preb] = res;
+            y = res;
+        }
+        
+        if(x == y)
+            return prea < preb;
+        else
+            return x < y;
+    }
+    int getKth(int lo, int hi, int k) {
+        vector<int>res;
+        vector<int>num;
+        
+        for(int i=lo;i<=hi;i++)
+            num.push_back(i);
+        
+        sort(num.begin(), num.end(), cmp);
+    
+        return num[k-1];
+    }
+};

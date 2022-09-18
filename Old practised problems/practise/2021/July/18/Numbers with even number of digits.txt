@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int findNumbers(vector<int>& nums) {
+        int res=0;
+        for(auto val:nums)
+            for(int i=1,dig=1;i<=100000;i=i*10,dig++)
+                if(val/i >=1 && val/i <= 9){
+                    if(dig%2 == 0)
+                        res++;
+                }
+           
+        return res;
+    }
+};

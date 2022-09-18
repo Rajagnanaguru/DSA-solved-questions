@@ -1,0 +1,59 @@
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        int n = nums.size();
+        int res = 0;
+        
+        vector<int>prefix(n, 0);
+        prefix = nums;
+        
+        map<int, int>startm;
+        map<int, int>endm;
+        
+        for(int i=0; i<n; i++)
+            if(prefix[i] == 0)
+                prefix[i] = -1;
+        
+        for(int i=1; i<n; i++)
+            prefix[i] += prefix[i-1];
+        
+        for(int i=0; i<n; i++){
+            if(prefix[i] == 0){
+                if(i+1 > res)
+                    res = i+1;
+            }
+        }
+        
+        for(int i=0; i<n; i++){
+            if(startm.find(prefix[i]) == startm.end()){
+                startm[prefix[i]] = i;
+            }
+            
+            endm[prefix[i]] = i;
+        }
+        
+//         for(int i=0; i<n-1; i++){
+//             for(int j=i+1; j<n; j++){
+//                 int diff;
+                
+//                 if(i == 0)
+//                     diff = prefix[j]-0;
+//                 else
+//                     diff = prefix[j] - prefix[i-1];
+                
+//                 int len = j-i+1;
+//                 if(len/2 == diff && len%2 == 0)
+//                     if(res < len)
+//                         res = len;
+//             }
+//         }
+        
+        for(auto m: startm){
+            int diff = endm[m.first] - startm[m.first];
+            if(diff > res)
+                res = diff;
+        }
+        
+        return res;
+    }
+};

@@ -1,0 +1,64 @@
+class Solution {
+public:
+    int find(int node, vector<int>&parent){
+        int par = parent[node];
+        
+        while(par != parent[par])
+            par = parent[par];
+        
+        return par;
+    }
+    
+    void unioning(int node1, int node2, vector<int>&parent, vector<int>&rank){
+        int parent1 = find(node1, parent);
+        int parent2 = find(node2, parent);
+        
+        if(parent1 == parent2)
+            return;
+        
+        int rank1 = rank[parent1];
+        int rank2 = rank[parent2];
+        
+        if(rank1 >= rank2){
+            parent[parent2] = parent1;
+            rank[parent1] += rank2;
+        }else{
+            parent[parent1] = parent2;
+            rank[parent2] += rank1;
+        }
+    }
+
+    int removeStones(vector<vector<int>>& stones) {
+        int res = 0;
+        
+        vector<int>parent(20005, -1);
+        vector<int>rank(20005, 1);
+        
+        int ns = stones.size();
+        int maxn = 20005;
+        
+        for(int i=0; i<ns; i++){
+            int val1 = stones[i][0];
+            int val2 = stones[i][1] + 10001;
+            
+            parent[val1] = val1;
+            parent[val2] = val2;
+        } 
+        
+        for(int i=0; i<ns; i++){
+            int val1 = stones[i][0];
+            int val2 = stones[i][1]+10001;
+            
+            unioning(val1, val2, parent, rank);
+        }
+        
+        map<int, int>connectedgraph;
+        for(int i=0; i<ns; i++)
+            connectedgraph[find(stones[i][0], parent)]++;
+        
+        for(auto &val: connectedgraph)
+            res += val.second - 1;
+        
+        return res;
+    }
+};

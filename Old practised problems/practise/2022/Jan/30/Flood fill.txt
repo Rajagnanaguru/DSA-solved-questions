@@ -1,0 +1,50 @@
+class Solution {
+public:
+    int m, n;
+    int orig;
+    vector<vector<int>> res;
+    vector<vector<int>> done;
+    void spread(int sr, int sc, int newColor){
+        cout<<"1sr: "<<sr<<"Sc: "<<sc<<"\n";
+        if(sr < 0 || sr >= m || sc < 0 || sc >= n)
+            return;
+        cout<<"2sr: "<<sr<<"Sc: "<<sc<<"\n";
+        if(res[sr][sc] != orig)
+            return;
+        cout<<"3sr: "<<sr<<"Sc: "<<sc<<"\n";
+        
+        if(done[sr][sc])
+            return;
+        
+        res[sr][sc] = newColor;
+        
+        done[sr][sc] = 1;
+        cout << "Changed \n";
+        if(sc-1 >= 0)
+            spread(sr, sc-1, newColor);
+        
+        if(sr-1 >= 0)
+            spread(sr-1, sc, newColor);
+        
+        if(sc+1 < n)
+            spread(sr, sc+1, newColor);
+        
+        if(sr+1 < m)
+            spread(sr+1, sc, newColor);
+    }
+    
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        int curr = image[sr][sc];
+        m = image.size();
+        n = image[0].size();
+        res = image;
+        orig = image[sr][sc];
+        
+        vector<vector<int>> track(m ,vector<int> (n, 0));
+        done = track;
+        
+        spread(sr, sc, newColor);
+        
+        return res;
+    }
+};

@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int distributeCandies(vector<int>& candyType) {
+        set<int>flavors;
+        for(auto val: candyType)
+            flavors.insert(val);
+        
+        int nf = flavors.size();
+        int n = candyType.size();
+        
+        if(n/2 > nf)
+            return nf;
+        
+        return n/2;
+    }
+};

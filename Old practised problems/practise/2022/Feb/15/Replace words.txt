@@ -1,0 +1,55 @@
+class Solution {
+public:
+    string replaceWords(vector<string>& dictionary, string sentence) {
+        set<string>dict;
+        string res;
+        
+        for(auto val: dictionary)
+            dict.insert(val);
+        
+        vector<string>all;
+        string tmp;
+        
+        for(char c: sentence){
+            if(c == ' '){
+                all.push_back(tmp);
+                tmp = "";
+            }else
+                tmp.push_back(c);
+        }
+        
+        all.push_back(tmp);
+        int alln = all.size();
+        
+        for(int i=0; i<alln; i++){
+            string s = all[i];
+            
+            int n = s.length();
+            int flag = 0;
+            
+            for(auto d: dict){
+                int l = d.length();
+                
+                if(l > n)
+                    continue;
+                
+                string sub = s.substr(0, l);
+                if(d.compare(sub) == 0){
+                    res += d;
+                    
+                    if(i != alln-1)
+                        res += " ";
+                    flag = 1;
+                    break;
+                }
+            }
+            
+            if(flag == 0){
+                res += s;
+                if(i != alln-1)
+                    res += " ";
+            }
+        }
+        return res;
+    }
+};
