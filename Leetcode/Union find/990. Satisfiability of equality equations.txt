@@ -1,0 +1,89 @@
+// TC -> O(n), 2 pass approach
+// SC -> O(n)
+
+class Solution {
+public:
+    map<char, char>parent;
+    vector<int>ranks;
+    
+    
+    // Union find data structure
+    // Starts here
+    char findParent(char c){ 
+        char par = parent[c];
+        
+        while(par != parent[par])
+            par = parent[par];
+        
+        return par;
+    }
+    
+    void unioning(char val1, char val2){
+        char par1 = findParent(val1);
+        char par2 = findParent(val2);
+        
+        if(par1 == par2)
+            return;
+        
+        int n1 = ranks[par1 - 'a'];
+        int n2 = ranks[par2 - 'a'];
+        
+        if(n1 >= n2){
+            parent[par2] = par1;
+            ranks[par1 -'a'] += ranks[par2-'a'];
+        }else{
+            parent[par1] = par2;
+            ranks[par2-'a'] += ranks[par1-'a'];
+        }
+    }
+    
+    //Ends here
+    
+    bool equationsPossible(vector<string>& equations) {
+        ranks = vector<int>(26, 1);
+        
+        for(char c='a'; c<='z'; c++){ 
+        // Initialising 26 groups, each character is its own leader
+            parent[c] = c;
+        }
+        
+        int n = equations.size();
+        
+        int l;
+        string s;
+        char x, y, op;
+        
+        
+        // First pass, for constructing the groups between equal value variables
+        // Not considering, != cases here
+        for(int i=0; i<n; i++){
+            s = equations[i];
+            x = s[0];
+            y = s[3];
+            
+            op = s[1];
+            if(op == '=')
+                unioning(x, y);
+        }
+        
+        // Checking the whether != cases arises any conflict
+        for(int i=0; i<n; i++){
+            s = equations[i];
+            x = s[0];
+            y = s[3];
+            op = s[1];
+            
+            if(op == '!'){
+                char par1 = findParent(x);
+                char par2 = findParent(y);
+                
+                // If parent of both variables is same, they are equal (in same group)
+                // which is a conflict
+                if(par1 == par2)    
+                    return false;
+            }
+        }
+        
+        return true;
+    }
+};
