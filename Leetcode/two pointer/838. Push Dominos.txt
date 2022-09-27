@@ -1,0 +1,100 @@
+class Solution {
+public:
+    
+    // Divided into following cases
+    // L..R -> Stable
+    // R..L -> Compart (equal no of rights and lefts)
+    // L..L -> Leftwards
+    // R..R -> Rightwards
+    // ..R  -> Left part stable
+    // ..L  -> Leftwards
+    // L..  -> Right part stable
+    // R..  -> Rightwards
+    
+    string pushDominoes(string dominoes) {
+        string res;
+        
+        int l = 0;
+        int r;
+        
+        int n = dominoes.size();
+        
+        int len;
+        
+        // Left is initiated with 0
+        // Traversing the string with r
+        
+        for(r=0; r<n; r++){
+            char curr = dominoes[r];
+            
+            if(curr == 'L'){
+                // can be a compart, left
+                
+                if(dominoes[l] == 'R'){
+                    // compart
+                    res.push_back('R');
+                    len = r-l-1;
+                    
+                    int adds = len/2;
+                    while(adds--)
+                        res.push_back('R');
+
+                    if(len%2 == 1)
+                        res.push_back('.');
+                    
+                    adds = len/2;
+                    while(adds--)
+                        res.push_back('L');
+                }else{
+                    // left side
+                    // both LL and .L
+                    len = r-l;
+                    while(len--)
+                        res.push_back('L');
+                }
+                
+                l = r;
+            }else if(curr == 'R'){
+                if(dominoes[l] == 'L'){
+                    // stable
+                    res.push_back('L');
+                    len = r-l-1;
+                    
+                    while(len--)
+                        res.push_back('.');
+                }else if(dominoes[l] == 'R'){
+                    // right side
+                    len = r-l;
+                    while(len--)
+                        res.push_back('R');
+                }else{
+                    // . and R
+                    len = r-l;
+                    while(len--)
+                        res.push_back('.');
+                }
+                
+                l = r;
+            }else
+                continue;
+        }
+        
+        
+        // considering the last pair of l and r
+        char curr = dominoes[l];
+        r = n-1;
+        
+        len = r-l+1;
+        
+        if(curr == 'R'){
+            // Rightwards
+            while(len--)
+                res.push_back('R');
+        }else{ // L and . case
+            for(int i=l; i<n; i++)
+                res.push_back(dominoes[i]);
+        }
+        
+        return res;
+    }
+};
