@@ -1,0 +1,52 @@
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int l, r;
+        int n = arr.size();
+        
+        vector<int>res;
+        
+        int pos = lower_bound(arr.begin(), arr.end(), x) - arr.begin();
+        
+        if(pos == n)
+            pos = n-1;
+        
+        if(pos-1 >= 0){
+            if(abs(arr[pos-1] - x) <= abs(arr[pos] - x))
+                pos -= 1;
+        }
+        
+        int times = k;
+        
+        l = pos;
+        r = pos;
+        
+        // middle count
+        times--;
+        
+        l--;
+        r++;
+        
+        int turn = 1;
+        while(times > 0){
+            int left = INT_MAX;
+            int right = INT_MAX;
+            
+            if(l >= 0)
+                left = abs(arr[l] - x);
+            
+            if(times > 0 && r < n)
+                right = abs(arr[r] - x);
+            
+            if(left <= right)
+                l--;
+            else
+                r++;
+            
+            times--;
+        }
+        
+        res = vector<int>(arr.begin()+l+1, arr.begin()+r);
+        return res;
+    }
+};
