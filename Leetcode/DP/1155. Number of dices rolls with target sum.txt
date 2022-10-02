@@ -1,0 +1,87 @@
+// Using backtracking
+// TC: O(n^k) -> time limit exceeded
+class Solution {
+public:
+    bool isok(int &ind, vector<int>&state, int &k, int &target, int &curr){
+        if(state[ind] > k)
+            return false;
+        if(curr > target)
+            return false;
+        return true;
+    }
+    
+    int mod = 1e9 + 7;
+    
+    int numRollsToTarget(int n, int k, int target) {
+        vector<int>state(n, 0);
+        
+        int res=0, curr=0, ptr=0;
+        
+        while(ptr >= 0){
+            if(ptr == n){
+                // backtracking
+                if(curr == target)
+                    res++;
+                ptr--;
+                curr -= state[ptr];
+            }else{
+                // checking if ok to proceed
+                state[ptr]++;
+                curr += state[ptr];
+                
+                if(isok(ptr, state, k, target, curr))
+                    ptr++;
+                else{
+                    // backtracking
+                    curr -= state[ptr];
+                    state[ptr]=0;
+                    ptr--;
+                    
+                    if(ptr >= 0)
+                        curr -= state[ptr];
+                }
+            }
+            
+            res = res % mod;
+        }
+        
+        return res;
+    }
+};
+
+
+// Using dp
+class Solution {
+public:
+    int res = 0;
+    int mod = 1e9 + 7;
+    
+    vector<vector<int>>memo;
+    int func(int ind, int &k, int target){
+        if(ind == -1){
+            if(target == 0)
+                return 1;
+            return 0;
+        }
+        
+        if(target <= 0)
+            return 0;
+        
+        if(memo[ind][target] != -1)
+            return memo[ind][target];
+        
+        int res = 0;
+        for(int i=1; i<=k; i++){
+            res += func(ind-1, k, target-i);
+            res = res % mod;
+        }
+        
+        memo[ind][target] = res;
+        return res;
+    }
+    
+    int numRollsToTarget(int n, int k, int target) {
+        memo = vector<vector<int>>(n+1, vector<int>(target+1, -1));
+        return func(n-1, k, target);
+    }
+};
