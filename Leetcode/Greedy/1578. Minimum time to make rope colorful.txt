@@ -1,0 +1,38 @@
+// TC -> O(n)
+// Simple greedy approach
+class Solution {
+public:
+    int minCost(string colors, vector<int>& neededTime) {
+        int n = neededTime.size();
+        int res = 0;
+        
+        int l = 0, r=0;
+        for(int i=0; i<n; i++){
+            l = i;
+            r = i;
+            
+            int currsum = 0;
+            int maxi = -1;
+            
+            while(r < n && colors[l] == colors[r]){
+                int currtime = neededTime[r];
+                
+                currsum += currtime;
+                if(maxi < currtime)
+                    maxi = currtime;
+                
+                r++;
+            }
+            r -= 1;
+            
+            if(l == r)
+                continue;
+            else{
+                res += currsum - maxi;
+                i = r;
+            }
+        }
+        
+        return res;
+    }
+};
