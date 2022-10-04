@@ -1,0 +1,20 @@
+class Solution {
+public:
+    
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if(root == NULL)
+            return false;
+        
+        if(root->left == NULL && root->right == NULL){
+            targetSum -= root->val;
+            
+            if(targetSum == 0)
+                return true;
+            return false;
+        }
+        
+        int curr = root->val;
+        int newtarget = targetSum - curr;
+        return hasPathSum(root->left, newtarget) || hasPathSum(root->right, newtarget);
+    }
+};
