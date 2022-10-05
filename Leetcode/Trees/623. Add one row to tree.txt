@@ -1,0 +1,60 @@
+// Simple level order traversal
+
+class Solution {
+public:
+    TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+        queue<TreeNode*>qe;
+        
+        qe.push(root);
+        qe.push(NULL);
+        
+        int target = depth-1;
+        int curr = 1;
+        
+        if(target == 0){
+            // edge case
+            TreeNode *tmp = new TreeNode(val);
+            tmp->left = root;
+            return tmp;
+        }
+        
+        while(!qe.empty()){
+            TreeNode *node = qe.front();
+            
+            if(curr == target){
+                while(!qe.empty() && (node = qe.front()) != NULL){
+                    TreeNode *l = node->left;
+                    TreeNode *r = node->right;
+                    
+                    TreeNode *ltmp = new TreeNode(val);
+                    node->left = ltmp;
+                    ltmp->left = l;
+                    
+                    TreeNode *rtmp = new TreeNode(val);
+                    node->right = rtmp;
+                    rtmp->right = r;
+                    
+                    qe.pop();
+                }
+                
+                return root;
+            }
+            
+            while(!qe.empty() && (node = qe.front()) != NULL){
+                if(node->left)
+                    qe.push(node->left);
+                if(node->right)
+                    qe.push(node->right);
+                qe.pop();
+            }
+            
+            qe.pop(); // popping the null value
+            if(!qe.empty())
+                qe.push(NULL);
+            
+            curr++;
+        }
+        
+        return root;
+    }
+};
