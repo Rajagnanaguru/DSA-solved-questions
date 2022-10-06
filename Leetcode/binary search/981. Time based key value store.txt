@@ -1,0 +1,48 @@
+class TimeMap {
+public:
+    map<string, vector<pair<int, string>>>mp;
+    set<string>all;
+    
+    TimeMap() {
+                
+    }
+    
+    void set(string key, string value, int timestamp) {
+        if(all.count(key) == 0){
+            // not found
+            mp[key] = {make_pair(timestamp, value)};
+            all.insert(key);
+        }else{
+            mp[key].push_back(make_pair(timestamp, value));
+        
+            vector<pair<int, string>>&got = mp[key];
+            
+            pair<int, string>t = {timestamp, value};
+            auto pos = lower_bound(got.begin(), got.end(), t);
+            
+            got.insert(pos, t);
+        }
+    }
+    
+    string get(string key, int timestamp) {
+        if(all.count(key) == 0)
+            return "";
+        
+        vector<pair<int, string>>&got = mp[key];
+        int n = got.size();
+      	
+        pair<int, string>t = {timestamp, ""};
+        int ind = lower_bound(got.begin(), got.end(), t) - got.begin();
+        
+        if(ind == n)
+            return got[ind-1].second;
+        
+        if(got[ind].first == timestamp)
+            return got[ind].second;
+        
+        if(ind == 0)
+            return "";
+        
+        return got[ind-1].second;
+    }
+};
