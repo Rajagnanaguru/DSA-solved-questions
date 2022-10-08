@@ -1,0 +1,41 @@
+// Time Complexity - O(n^2)
+
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        int res = 0;
+        int n = nums.size();
+        int mini = INT_MAX;
+        
+        sort(nums.begin(), nums.end());
+        
+        
+        for(int i=0; i<n; i++){
+            int currtarget = target - nums[i];
+            
+            int l = i+1;
+            int r = n-1;
+            
+            int currsum;
+            int diff;
+            while(l < r){
+                currsum = nums[l] + nums[r];
+                diff = abs(currsum - currtarget);
+                
+                if(diff < mini){
+                    mini = diff;
+                    res = nums[i] + currsum;
+                }
+                
+                if(currsum == currtarget)
+                    return res;
+                else if(currsum < currtarget)
+                    l++;
+                else
+                    r--;
+            }
+        }
+        
+        return res;
+    }
+};
