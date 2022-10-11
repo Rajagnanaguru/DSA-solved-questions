@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+        int n = nums.size();
+        
+        vector<int>dp;
+        
+        dp.push_back(nums[0]);
+        
+        int dpn = 1;
+        for(int i=1; i<n; i++){
+            int val = nums[i];
+            
+            if(dp[dpn-1] < val){
+                dp.push_back(val);
+                dpn++;
+            }else{
+                int ind = lower_bound(dp.begin(), dp.end(), val) - dp.begin();
+                dp[ind] = val;
+            }
+            
+            if(dpn >= 3)
+                return true;
+        }
+        
+        return false;
+    }
+};
